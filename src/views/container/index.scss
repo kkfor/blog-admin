@@ -1,0 +1,23 @@
+aside {
+  position: absolute;
+  top: 45px;
+  bottom: 0;
+  width: 230px;
+  background: #23282d;
+  > ul {
+    li {
+      height: 50px;
+      line-height: 50px;
+      padding-left: 10px;
+      background: #32373c;
+    }
+  }
+}
+main {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  bottom: 0;
+  left: 230px;
+  background: #eee;
+}
