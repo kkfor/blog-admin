@@ -10,13 +10,15 @@ class ArticleEdit extends Component {
     return (
       <div className={styles.article}>
         <div className={styles.content}>
-          <Input />
-          <div class={styles.editor}>
+          <div className={styles.title}>
+            <Input placeholder="标题" />
+          </div>
+          <div className={styles.editor}>
             <BraftEditor />
           </div>
         </div>
         <div className={styles.articleSide}>
-          <div>
+          <div className={styles.sideBlock}>
             <Button>保存</Button>
             <Button>草稿</Button>
           </div>

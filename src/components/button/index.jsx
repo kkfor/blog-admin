@@ -5,9 +5,9 @@ class Button extends Component {
   render() {
     const props = this.props
     const { children } = props
-    const content = React.Children.map(children, function(child) {
-      console.log(child)
-    })
+    // const content = React.Children.map(children, function(child) {
+    //   console.log(child)
+    // })
     return <button>{children}</button>
   }
 }

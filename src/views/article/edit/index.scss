@@ -3,9 +3,17 @@
 }
 .content {
   margin-right: 40px;
+  flex: 1;
+}
+.title {
+  margin-bottom: 16px;
 }
 .articleSide {
   width: 360px;
+}
+.sideBlock {
+  background: #fff;
+  padding: 20px
 }
 .editor {
   border: 1px solid #ccc;
