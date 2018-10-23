@@ -1,3 +1,13 @@
+.article {
+  display: flex;
+}
+.content {
+  margin-right: 40px;
+}
+.articleSide {
+  width: 360px;
+}
 .editor {
   border: 1px solid #ccc;
+  background: #fff;
 }

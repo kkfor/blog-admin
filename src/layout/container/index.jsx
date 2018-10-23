@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import './index.scss'
+import styles from './index.scss'
 import Icon from 'components/icon'
 import About from 'views/article/edit'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
@@ -8,7 +8,7 @@ class Container extends Component {
   render() {
     return (
       <Fragment>
-          <aside>
+          <aside className={styles.aside}>
             <ul>
               <li>
                 <div><Icon />项目1</div>
@@ -19,7 +19,7 @@ class Container extends Component {
               </li>
             </ul>
           </aside>
-          <main>
+          <main className={styles.main}>
           <Router>
             <Route path="/" component={About} />
           </Router>
