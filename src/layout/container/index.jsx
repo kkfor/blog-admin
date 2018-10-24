@@ -11,11 +11,14 @@ class Container extends Component {
           <aside className={styles.aside}>
             <ul>
               <li>
-                <div><Icon />项目1</div>
+                <div>文章</div>
               </li>
-              <li>
-                <div><Icon />项目2</div>
-                <ul></ul>
+              <li className={styles.active}>
+                <div>项目2</div>
+                <ul>
+                  <li>子1</li>
+                  <li>子2</li>
+                </ul>
               </li>
             </ul>
           </aside>

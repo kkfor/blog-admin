@@ -19,10 +19,10 @@ class ArticleEdit extends Component {
         </div>
         <div className={styles.articleSide}>
           <div className={styles.sideBlock}>
-            <Button>保存</Button>
+            <Button type="primary">保存</Button>
             <Button>草稿</Button>
           </div>
-          <div>dfdfsdfsdf</div>
+          {/* <div>dfdfsdfsdf</div> */}
         </div>
       </div>
     )

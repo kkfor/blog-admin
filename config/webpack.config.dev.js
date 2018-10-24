@@ -30,6 +30,7 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+const sassCommonRegex = /common\.(scss|sass)$/;
 // const sassModuleRegex = /\.(scss|sass)$/;
 
 // common function to get style loaders
@@ -289,16 +290,17 @@ module.exports = {
           // to immediately apply all styles to the DOM.
           // By default we support SASS Modules with the
           // extensions .module.scss or .module.sass
-          // {
-          //   test: sassRegex,
-          //   exclude: sassModuleRegex,
-          //   use: getStyleLoaders({ importLoaders: 2 }, 'sass-loader'),
-          // },
+          {
+            test: sassCommonRegex,
+            // exclude: sassModuleRegex,
+            use: getStyleLoaders({ importLoaders: 2 }, 'sass-loader'),
+          },
           // Adds support for CSS Modules, but using SASS
           // using the extension .module.scss or .module.sass
           {
             // test: sassModuleRegex,
             test: sassRegex,
+            exclude: sassCommonRegex,
             use: getStyleLoaders(
               {
                 importLoaders: 2,
@@ -318,6 +320,7 @@ module.exports = {
             // its runtime that would otherwise be processed through "file" loader.
             // Also exclude `html` and `json` extensions so they get processed
             // by webpacks internal loaders.
+            // test: /\.(eot|svg|ttf|woff)$/,
             exclude: [/\.(js|mjs|jsx)$/, /\.html$/, /\.json$/],
             loader: require.resolve('file-loader'),
             options: {

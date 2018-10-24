@@ -1,5 +1,10 @@
 import React from 'react'
+import classNames from 'classnames'
 
 export default props => {
-  return <i>icon</i>
+  const { type, size } = props
+  const classes = classNames({
+    [`fo-${type}`]: true
+  })
+  return <i className={classes}></i>
 }

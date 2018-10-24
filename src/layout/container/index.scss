@@ -5,12 +5,13 @@
   width: 230px;
   background: #23282d;
   color: #fff;
-  > ul {
+  ul {
     li {
-      height: 50px;
       line-height: 50px;
-      padding-left: 10px;
-      background: #32373c;
+      padding-left: 14px;
+      &.active {
+        background: #32373c;
+      }
     }
   }
 }
