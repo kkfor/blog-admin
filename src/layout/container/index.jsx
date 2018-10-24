@@ -15,7 +15,7 @@ class Container extends Component {
               { route.map((item, index) => 
                 <li key={index}>
                   <div>{item.name}</div>
-                  {this.renderChildren(item.children)}
+                  {this.renderChildren(item)}
                 </li>
                 )
               }
@@ -24,7 +24,7 @@ class Container extends Component {
           <main className={styles.main}>
           {
             route.map((item, index) =>
-              this.renderChildren(item.children, true)
+              this.renderChildren(item, true)
             )
           }
             {/* <Route path="/" component={About} /> */}
@@ -35,19 +35,19 @@ class Container extends Component {
   }
 
   renderChildren(item, route) {
-    if(item || Boolean(item.length)) {
+    if(item.children || Boolean(item.chilren.length)) {
       if(route) {
         return (
-          item.map((subitem, subindex) => 
-            <Route key={subindex} path={subitem.path} component={subitem.components} />
+          item.children.map((subitem, subindex) => 
+            <Route key={subindex} path={item.path + subitem.path} component={subitem.components} />
           )
         )
       } else {
         return (
           <ul>
           {
-            item.map((subitem, subindex) => 
-              <li key={subindex}><Link to={subitem.path}>{subitem.name}</Link></li>
+            item.children.map((subitem, subindex) => 
+              <li key={subindex}><Link to={item.path + subitem.path}>{subitem.name}</Link></li>
             )
           }
         </ul> 
