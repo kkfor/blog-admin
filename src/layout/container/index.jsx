@@ -2,37 +2,58 @@ import React, { Component, Fragment } from 'react'
 import styles from './index.scss'
 import Icon from 'components/icon'
 import About from 'views/article/edit'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import route from '../../router'
 
 class Container extends Component {
   render() {
     return (
-      <Fragment>
+      <Router>
+        <Fragment>
           <aside className={styles.aside}>
             <ul>
-              <li>
-                <div>文章</div>
-              </li>
-              <li className={styles.active}>
-                <div>项目2</div>
-                <ul>
-                  <li>子1</li>
-                  <li>子2</li>
-                </ul>
-              </li>
+              { route.map((item, index) => 
+                <li key={index}>
+                  <div>{item.name}</div>
+                  {this.renderChildren(item.children)}
+                </li>
+                )
+              }
             </ul>
           </aside>
           <main className={styles.main}>
-          <Router>
-            <Route path="/" component={About} />
-          </Router>
+          {
+            route.map((item, index) =>
+              this.renderChildren(item.children, true)
+            )
+          }
+            {/* <Route path="/" component={About} /> */}
           </main>
         </Fragment>
+      </Router>
     )
   }
 
-  menu() {
-    
+  renderChildren(item, route) {
+    if(item || Boolean(item.length)) {
+      if(route) {
+        return (
+          item.map((subitem, subindex) => 
+            <Route key={subindex} path={subitem.path} component={subitem.components} />
+          )
+        )
+      } else {
+        return (
+          <ul>
+          {
+            item.map((subitem, subindex) => 
+              <li key={subindex}><Link to={subitem.path}>{subitem.name}</Link></li>
+            )
+          }
+        </ul> 
+        )
+      }
+    }
   }
 }
 

@@ -1,3 +1,5 @@
+@import './styles/custom.scss';
+
 body {
   margin: 0;
   padding: 0;
@@ -31,4 +33,12 @@ html, body, ul, li, ol, aside, h1, h2 {
 }
 li {
   list-style-type: none;
+}
+a {
+  color: $primary-color;
+  cursor: pointer;
+  text-decoration: none;
+  &:hover, &:active {
+    outline: 0;
+  }
 }

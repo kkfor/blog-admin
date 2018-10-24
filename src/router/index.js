@@ -1,16 +1,33 @@
 
+import articleList from 'views/article/list'
+import articleEdit from 'views/article/edit'
 
 const route = [
   {
     icon: '',
-    path: '/',
-    components: 'views/article/edit',
+    path: '/article',
+    name: '文章',
     children: [
       {
         icon: '',
-        path: '',
-        components: ''
+        path: '/list',
+        name: '所有文章',
+        components: articleList
+      },
+      {
+        icon: '',
+        path: '/edit',
+        name: '撰写文章',
+        components: articleEdit
       }
     ]
+  },
+  {
+    icon: '',
+    path: '/article',
+    name: '分类',
+    children: []
   }
 ]
+
+export default route

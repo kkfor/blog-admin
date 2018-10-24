@@ -8,7 +8,15 @@
   ul {
     li {
       line-height: 50px;
-      padding-left: 14px;
+      ul > li {
+        padding-left: 30px;
+        a {
+          display: block;
+        }
+      }
+      > div {
+        padding-left: 14px;
+      }
       &.active {
         background: #32373c;
       }
