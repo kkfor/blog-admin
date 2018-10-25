@@ -29,8 +29,8 @@ const env = getClientEnvironment(publicUrl);
 const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
+const sassGlobalDir = path.resolve(__dirname, '../src/styles')
 const sassModuleRegex = /\.module\.(scss|sass)$/;
-const sassCommonRegex = /common\.(scss|sass)$/;
 // const sassModuleRegex = /\.(scss|sass)$/;
 
 // common function to get style loaders
@@ -291,7 +291,8 @@ module.exports = {
           // By default we support SASS Modules with the
           // extensions .module.scss or .module.sass
           {
-            test: sassCommonRegex,
+            test: sassRegex,
+            include: sassGlobalDir,
             // exclude: sassModuleRegex,
             use: getStyleLoaders({ importLoaders: 2 }, 'sass-loader'),
           },
@@ -300,7 +301,7 @@ module.exports = {
           {
             // test: sassModuleRegex,
             test: sassRegex,
-            exclude: sassCommonRegex,
+            exclude: sassGlobalDir,
             use: getStyleLoaders(
               {
                 importLoaders: 2,

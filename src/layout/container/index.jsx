@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import styles from './index.scss'
 import Icon from 'components/icon'
 import About from 'views/article/edit'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 import route from '../../router'
 
 class Container extends Component {
@@ -21,12 +21,13 @@ class Container extends Component {
           </ul>
         </aside>
         <main className={styles.main}>
-        {
-          route.map((item, index) =>
-            this.renderChildren(item, true)
-          )
-        }
-          {/* <Route path="/" component={About} /> */}
+          <Switch>
+            {
+              route.map((item, index) =>
+                this.renderChildren(item, true)
+              )
+            }
+          </Switch>
         </main>
       </Fragment>
     )

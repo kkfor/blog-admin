@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styles from './index.scss'
 import { Input, Button } from 'antd'
+import { widthRouter } from 'react-router-dom'
 
 class Login extends Component {
   render() {
@@ -14,11 +15,16 @@ class Login extends Component {
             <div>
               <Input placeholder="输入密码"></Input>
             </div>
-            <Button block type="primary">登录</Button>
+            <Button block type="primary" onClick={this.login.bind(this)}>登录</Button>
           </div>
         </div>
       </div>
     )
+  }
+
+  login() {
+    // const { history} = this.props
+    // history.push('/')
   }
 }
 

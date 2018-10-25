@@ -1,19 +1,23 @@
-import React, { Fragment } from 'react';
-import ReactDOM from 'react-dom';
-import './index.scss';
-import './styles/common.scss'
+import React, { Fragment } from 'react'
+import ReactDOM from 'react-dom'
 import 'antd/dist/antd.css'
-import App from './layout/App';
+import './index.scss'
+import './styles/common.scss'
+import App from './layout/App'
 import Login from './views/login'
-import * as serviceWorker from './serviceWorker';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import Bpp from './layout/Bpp'
+import * as serviceWorker from './serviceWorker'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
 
 ReactDOM.render(
   <Router>
     <Fragment>
-      <Route path="/login" component={Login} />
-      <Route exact path="/" component={App} />
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/" component={App} />
+      </Switch>
     </Fragment>
+    {/* <Bpp /> */}
   </Router>
   , document.getElementById('root'));
 
