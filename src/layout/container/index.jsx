@@ -8,29 +8,27 @@ import route from '../../router'
 class Container extends Component {
   render() {
     return (
-      <Router>
-        <Fragment>
-          <aside className={styles.aside}>
-            <ul>
-              { route.map((item, index) => 
-                <li key={index}>
-                  <div>{item.name}</div>
-                  {this.renderChildren(item)}
-                </li>
-                )
-              }
-            </ul>
-          </aside>
-          <main className={styles.main}>
-          {
-            route.map((item, index) =>
-              this.renderChildren(item, true)
-            )
-          }
-            {/* <Route path="/" component={About} /> */}
-          </main>
-        </Fragment>
-      </Router>
+      <Fragment>
+        <aside className={styles.aside}>
+          <ul>
+            { route.map((item, index) => 
+              <li key={index}>
+                <div>{item.name}</div>
+                {this.renderChildren(item)}
+              </li>
+              )
+            }
+          </ul>
+        </aside>
+        <main className={styles.main}>
+        {
+          route.map((item, index) =>
+            this.renderChildren(item, true)
+          )
+        }
+          {/* <Route path="/" component={About} /> */}
+        </main>
+      </Fragment>
     )
   }
 
