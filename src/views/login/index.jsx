@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styles from './index.scss'
 import { Input, Button } from 'antd'
-import { widthRouter } from 'react-router-dom'
+import history from 'config/history'
 
 class Login extends Component {
   render() {
@@ -23,8 +23,7 @@ class Login extends Component {
   }
 
   login() {
-    // const { history} = this.props
-    // history.push('/')
+    history.push('/')
   }
 }
 

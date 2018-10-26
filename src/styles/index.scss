@@ -1,4 +1,4 @@
-@import './styles/custom.scss';
+@import '../styles/custom.scss';
 
 body {
   margin: 0;
@@ -21,7 +21,7 @@ html {
     height: 100%;
     color: #000;
     font-size: 16px;
-    :global #root {
+    #root {
         height: 100%;
       }
   }

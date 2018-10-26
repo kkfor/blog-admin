@@ -1,16 +1,16 @@
 import React, { Fragment } from 'react'
 import ReactDOM from 'react-dom'
 import 'antd/dist/antd.css'
-import './index.scss'
+import './styles/index.scss'
 import './styles/common.scss'
 import App from './layout/App'
 import Login from './views/login'
 import Bpp from './layout/Bpp'
 import * as serviceWorker from './serviceWorker'
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
-
+import { Router, Route, Link, Switch } from 'react-router-dom'
+import history from 'config/history'
 ReactDOM.render(
-  <Router>
+  <Router history={history}>
     <Fragment>
       <Switch>
         <Route path="/login" component={Login} />
