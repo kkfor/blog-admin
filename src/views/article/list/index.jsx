@@ -8,7 +8,6 @@ class ArticleList extends Component {
     ]
     return (
       <div>
-      article list
         <Table columns={columns}></Table>
       </div>
     )
