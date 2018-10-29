@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import styles from './index.scss'
 import { Input, Button, Form } from 'antd'
 import history from 'config/history'
+import api from 'api'
+import Cookies from 'js-cookie'
 
 const FormItem = Form.Item
 
@@ -9,9 +11,11 @@ class Login extends Component {
   
   handleSubmit = (e) => {
     e.preventDefault()
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async(err, values) => {
       if(!err) {
-        console.log(values)
+        const res = await api.user.login(values)
+        Cookies.set('token', res.data, { expires: 7 })
+        history.push('/')
       }
     })
   }
@@ -29,7 +33,9 @@ class Login extends Component {
                 )}
               </FormItem>
               <FormItem>
-                <Input placeholder="输入密码"></Input>
+                {getFieldDecorator('password')(
+                  <Input placeholder="输入密码"></Input>
+                )}
               </FormItem>
               <Button block htmlType="submit" type="primary">登录</Button>
               </Form>
