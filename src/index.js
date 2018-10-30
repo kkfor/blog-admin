@@ -4,20 +4,20 @@ import 'antd/dist/antd.css'
 import './styles/index.scss'
 import './styles/common.scss'
 import App from './layout/App'
-import Login from './views/login'
-import Bpp from './layout/Bpp'
+import Login from './views/login/index'
+import Register from './views/login/register'
 import * as serviceWorker from './serviceWorker'
-import { Router, Route, Link, Switch } from 'react-router-dom'
+import { Router, Route, Switch } from 'react-router-dom'
 import history from 'config/history'
 ReactDOM.render(
   <Router history={history}>
     <Fragment>
       <Switch>
         <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
         <Route path="/" component={App} />
       </Switch>
     </Fragment>
-    {/* <Bpp /> */}
   </Router>
   , document.getElementById('root'));
 
