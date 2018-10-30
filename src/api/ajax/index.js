@@ -1,6 +1,7 @@
 import axios from 'axios'
 import config from './config'
-import { notification } from 'antd';
+import { notification } from 'antd'
+import Cookies from 'js-cookie'
 
 const instance = axios.create({
   baseURL: config.baseURL,
@@ -8,6 +9,11 @@ const instance = axios.create({
 }) 
 
 instance.interceptors.request.use(function(req) {
+  const auth = Cookies.get('token')
+  req.headers = {
+    'Authorization': auth,
+    ...req.headers
+  }
   return req
 })
 instance.interceptors.response.use(function(res) {
@@ -18,7 +24,12 @@ instance.interceptors.response.use(function(res) {
     }
     if(res.data.code === 0) {
       openNotification({type: 'error', content: res.data.message})
+      throw new Error(res.data.message)
     }
+  }
+}, function(error) {
+  if (error.response && error.response.status === 401) {
+    openNotification({type: 'error', content: error.response.data.message})
   }
 })
 

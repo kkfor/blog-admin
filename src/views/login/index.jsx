@@ -13,9 +13,13 @@ class Login extends Component {
     e.preventDefault()
     this.props.form.validateFields(async(err, values) => {
       if(!err) {
-        const res = await api.user.login(values)
-        Cookies.set('token', res.data, { expires: 7 })
-        history.push('/')
+        try {
+          const res = await api.user.login(values)
+          Cookies.set('token', res.data)
+          history.push('/')
+        } catch(err){
+          console.error(err)
+        }
       }
     })
   }

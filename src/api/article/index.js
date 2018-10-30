@@ -1,12 +1,19 @@
 import ajax from '../ajax'
 
 const url = {
-  get: '/article'
+  getArts: '/article',
+  postArt: '/article'
 }
 
 export default {
   getArts () {
-    // return ajax.get(url,)
+    return ajax.get(url.getArts)
+  },
+  postArt ({title, content}) {
+    return ajax.post(url.postArt, {
+      title,
+      content
+    })
   }
 }
 
