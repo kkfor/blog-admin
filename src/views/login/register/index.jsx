@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import styles from './index.scss'
 import { Input, Button, Form } from 'antd'
-import history from 'config/history'
-import api from 'api'
+import history from '@/config/history'
+import api from '@/api'
 import Cookies from 'js-cookie'
 
 const FormItem = Form.Item

@@ -3,7 +3,7 @@ import BraftEditor from 'braft-editor'
 import 'braft-editor/dist/index.css'
 import styles from './index.scss'
 import { Button, Input } from 'antd'
-import api from 'api'
+import api from '@/api'
 
 class ArticleEdit extends Component {
   state = {
@@ -17,6 +17,10 @@ class ArticleEdit extends Component {
 
   handleTitleChange = (title) => {
     this.setState({title})
+  }
+
+  uploadFn = (params) => {
+    console.log(params)
   }
 
   submitContent = async () => {
@@ -40,6 +44,7 @@ class ArticleEdit extends Component {
           <div className={styles.editor}>
             <BraftEditor
               value={editorState}
+              // media={{uploadFn: this.uploadFn}}
               onChange={this.handleEditorChange}
               onSave={this.submitContent}
             />

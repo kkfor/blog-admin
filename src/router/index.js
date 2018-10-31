@@ -1,6 +1,6 @@
 
-import articleList from 'views/article/list'
-import articleEdit from 'views/article/edit'
+import articleList from '@/views/article/list'
+import articleEdit from '@/views/article/edit'
 
 const route = [
   {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Table } from 'antd'
-import api from 'api'
+import api from '@/api'
 
 class ArticleList extends Component {
   constructor(props) {

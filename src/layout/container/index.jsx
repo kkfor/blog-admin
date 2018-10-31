@@ -2,8 +2,16 @@ import React, { Component, Fragment } from 'react'
 import styles from './index.scss'
 import { Route, Link, Switch } from 'react-router-dom'
 import route from '../../router'
+import Cookies from 'js-cookie'
+import history from '@/config/history'
 
 class Container extends Component {
+  componentDidMount() {
+    const token = Cookies.get('token')
+    if(!token) {
+      history.push('/login')
+    }
+  }
   render() {
     return (
       <Fragment>

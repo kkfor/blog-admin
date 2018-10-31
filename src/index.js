@@ -8,7 +8,7 @@ import Login from './views/login/index'
 import Register from './views/login/register'
 import * as serviceWorker from './serviceWorker'
 import { Router, Route, Switch } from 'react-router-dom'
-import history from 'config/history'
+import history from '@/config/history'
 ReactDOM.render(
   <Router history={history}>
     <Fragment>
