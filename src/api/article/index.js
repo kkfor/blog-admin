@@ -6,8 +6,8 @@ const url = {
 }
 
 export default {
-  getArts () {
-    return ajax.get(url.getArts)
+  getArts (params) {
+    return ajax.get(url.getArts, params)
   },
   postArt ({title, content}) {
     return ajax.post(url.postArt, {
