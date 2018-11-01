@@ -3,7 +3,6 @@ import styles from './index.scss'
 import { Input, Button, Form } from 'antd'
 import history from '@/config/history'
 import api from '@/api'
-import Cookies from 'js-cookie'
 
 const FormItem = Form.Item
 
@@ -14,7 +13,7 @@ class Login extends Component {
     this.props.form.validateFields(async(err, values) => {
       if(!err) {
         try {
-          const res = await api.user.register(values)
+          await api.user.register(values)
           // Cookies.set('token', res.data)
           history.push('/login')
         } catch(err){

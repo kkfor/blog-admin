@@ -6,16 +6,37 @@ import { Button, Input } from 'antd'
 import api from '@/api'
 
 class ArticleEdit extends Component {
-  state = {
-    title: null,
-    editorState: null
+  constructor(props) {
+    super(props)
+    this.state = {
+      id: null,
+      title: null,
+      content: null
+    }
   }
 
-  handleEditorChange = (editorState) => {
-    this.setState({editorState})
+  async componentDidMount() {
+    const id = this.props.match.params.id
+    if(id) {
+      try {
+        const res = await api.article.getArt(id)
+        this.setState({
+          id,
+          title: res.data.title,
+          content: BraftEditor.createEditorState(res.data.content)
+        })
+      } catch(err) {
+        console.error(err)
+      }
+    }
   }
 
-  handleTitleChange = (title) => {
+  handleEditorChange = (content) => {
+    this.setState({content})
+  }
+
+  handleTitleChange = (e) => {
+    const title = e.target.value
     this.setState({title})
   }
 
@@ -23,37 +44,43 @@ class ArticleEdit extends Component {
     console.log(params)
   }
 
-  submitContent = async () => {
+  submit = async publish => {
     let title = this.state.title
-    let content = this.state.editorState.toHTML()
+    let content = this.state.content.toHTML()
+    let id = this.state.id
     try {
-      await api.article.postArt({title, content})
+      if(id) {
+        await api.article.putArt(id, {title, content, publish})
+      } else {
+        await api.article.postArt({title, content, publish})
+      }
     } catch(err) {
       console.error(err)
     }
   }
 
   render() {
-    const { editorState } = this.state
+    const { content, title } = this.state
     return (
       <div className={styles.article}>
         <div className={styles.content}>
           <div className={styles.title}>
-            <Input placeholder="标题" onChange={this.handleTitleChange} />
+            <Input placeholder="标题" value={title} onChange={this.handleTitleChange} />
           </div>
           <div className={styles.editor}>
             <BraftEditor
-              value={editorState}
+              defaultValue={content}
+              value={content}
               // media={{uploadFn: this.uploadFn}}
               onChange={this.handleEditorChange}
-              onSave={this.submitContent}
+              onSave={this.submit}
             />
           </div>
         </div>
         <div className={styles.articleSide}>
           <div className={styles.sideBlock}>
-            <Button type="primary" onClick={this.submitContent}>保存</Button>
-            <Button>草稿</Button>
+            <Button type="primary" onClick={this.submit.bind(this, true)}>发布</Button>
+            <Button onClick={this.submit.bind(this, false)}>草稿</Button>
           </div>
         </div>
       </div>

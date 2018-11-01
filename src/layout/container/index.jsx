@@ -40,7 +40,7 @@ class Container extends Component {
   }
 
   renderChildren(item, route) {
-    if(item.children || Boolean(item.chilren.length)) {
+    if(item.children || !!item.chilren.length) {
       if(route) {
         return (
           item.children.map((subitem, subindex) => 
@@ -51,8 +51,13 @@ class Container extends Component {
         return (
           <ul>
           {
-            item.children.map((subitem, subindex) => 
-              <li key={subindex}><Link to={item.path + subitem.path}>{subitem.name}</Link></li>
+            item.children.map((subitem, subindex) => {
+              if(!subitem.hide) {
+                return <li key={subindex}><Link to={item.path + subitem.path}>{subitem.name}</Link></li>
+              } else {
+                return ''
+              }
+            }
             )
           }
         </ul> 

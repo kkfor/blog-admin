@@ -16,6 +16,13 @@ const route = [
       },
       {
         icon: '',
+        path: '/edit/:id',
+        name: '修改文章',
+        hide: true,
+        components: articleEdit
+      },
+      {
+        icon: '',
         path: '/edit',
         name: '撰写文章',
         components: articleEdit

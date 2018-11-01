@@ -41,15 +41,22 @@ const openNotification = ({type='open', content}) => {
   })
 }
 
+const post = (methods, url, data) => {
+  return new Promise((resolve, reject) => {
+    instance[methods](url, data).then(res => {
+      resolve(res)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
+
 export default {
   post(url, data) {
-    return new Promise((resolve, reject) => {
-      instance.post(url, data).then(res => {
-        resolve(res)
-      }).catch(err => {
-        reject(err)
-      })
-    })
+    post('post', url, data)
+  },
+  put(url, data) {
+    post('put', url, data)
   },
   get(url, params) {
     return new Promise((resolve, reject) => {
