@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Table, Pagination, Button } from 'antd'
+import { Table, Pagination, Button, Modal } from 'antd'
 import api from '@/api'
 import styles from './index.scss'
 import history from '@/config/history'
@@ -29,13 +29,22 @@ class ArticleList extends Component {
     }
   }
 
-  edit(e) {
-    const url = '/article/edit/' + e
+  edit(id) {
+    const url = '/article/edit/' + id
     history.push(url)
   }
 
-  delete() {
-
+  delete(id) {
+    Modal.confirm({
+      title: '提示?',
+      content: '确定要删除吗',
+      okText: '确定',
+      okType: 'danger',
+      cancelText: '取消',
+      async onOk() {
+        await api.article.delArt(id)
+      }
+    });
   }
 
   render() {
@@ -66,11 +75,11 @@ class ArticleList extends Component {
         title: '操作',
         dataIndex: '_id',
         key: '_id',
-        render: (e) => 
+        render: (id) => 
         (
           <Fragment>
-            <Button onClick={this.edit.bind(this, e)}>编辑</Button>
-            <Button onClick={this.delete.bind(this, e)} type="danger">删除</Button>
+            <Button onClick={this.edit.bind(this, id)}>编辑</Button>
+            <Button onClick={this.delete.bind(this, id)} type="danger">删除</Button>
           </Fragment>
         )
       }

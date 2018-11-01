@@ -41,7 +41,7 @@ const openNotification = ({type='open', content}) => {
   })
 }
 
-const post = (methods, url, data) => {
+const Ajax = (methods, url, data) => {
   return new Promise((resolve, reject) => {
     instance[methods](url, data).then(res => {
       resolve(res)
@@ -53,10 +53,13 @@ const post = (methods, url, data) => {
 
 export default {
   post(url, data) {
-    post('post', url, data)
+    Ajax('post', url, data)
   },
   put(url, data) {
-    post('put', url, data)
+    Ajax('put', url, data)
+  },
+  del(url, data) {
+    Ajax('delete', url, data)
   },
   get(url, params) {
     return new Promise((resolve, reject) => {

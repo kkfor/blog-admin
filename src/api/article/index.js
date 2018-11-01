@@ -4,7 +4,8 @@ const url = {
   getArt: '/article/',
   getArts: '/article',
   postArt: '/article',
-  putArt: '/article/'
+  putArt: '/article/',
+  delArt: '/article/'
 }
 
 export default {
@@ -21,6 +22,10 @@ export default {
   putArt (id, obj) {
     const uri = url.putArt + id
     return ajax.put(uri, obj)
+  },
+  delArt (id) {
+    const uri = url.delArt + id
+    return ajax.del(uri)
   }
 }
 
