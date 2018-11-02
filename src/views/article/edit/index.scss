@@ -11,10 +11,34 @@
 .articleSide {
   width: 360px;
 }
+.submit {
+  background: #fff;
+  padding: 16px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  box-shadow: 0 0 3px 0 rgba(#000, 0.2);
+  .publish {
+    margin-right: 8px;
+  }
+}
 .sideBlock {
   background: #fff;
-  padding: 16px 16px 4px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  box-shadow: 0 0 3px 0 rgba(#000, 0.2);
+  > h4 {
+    border-bottom: 1px solid #d9d9d9;
+    line-height: 40px;
+    padding-left: 16px;
+  }
+  > ul {
+    padding: 8px 16px;
+    li {
+      line-height: 30px;
+    }
+  }
 }
+
 .editor {
   border: 1px solid #ccc;
   background: #fff;

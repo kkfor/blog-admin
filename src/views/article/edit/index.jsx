@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import BraftEditor from 'braft-editor'
 import 'braft-editor/dist/index.css'
 import styles from './index.scss'
-import { Button, Input } from 'antd'
+import { Button, Input, Checkbox } from 'antd'
 import api from '@/api'
 
 class ArticleEdit extends Component {
@@ -11,7 +11,8 @@ class ArticleEdit extends Component {
     this.state = {
       id: null,
       title: null,
-      content: null
+      content: null,
+      categories: []
     }
   }
 
@@ -19,26 +20,39 @@ class ArticleEdit extends Component {
     const id = this.props.match.params.id
     if(id) {
       try {
-        const res = await api.article.getArt(id)
+        const arts = await api.article.getArt(id)
         this.setState({
           id,
-          title: res.data.title,
-          content: BraftEditor.createEditorState(res.data.content)
+          title: arts.data.title,
+          content: BraftEditor.createEditorState(arts.data.content)
         })
       } catch(err) {
         console.error(err)
       }
     }
-  }
-
-  handleEditorChange = (content) => {
-    this.setState({content})
+    try {
+      const categories = await api.category.getCategories()
+      this.setState({
+        categories: categories.data
+      })
+    }catch(err) {
+      console.error(err)
+    }
   }
 
   handleTitleChange = (e) => {
     const title = e.target.value
     this.setState({title})
   }
+
+  handleCategoryChange = (e) => {
+
+  }
+
+  handleEditorChange = (content) => {
+    this.setState({content})
+  }
+
 
   uploadFn = (params) => {
     console.log(params)
@@ -60,7 +74,7 @@ class ArticleEdit extends Component {
   }
 
   render() {
-    const { content, title } = this.state
+    const { content, title, categories } = this.state
     return (
       <div className={styles.article}>
         <div className={styles.content}>
@@ -78,9 +92,19 @@ class ArticleEdit extends Component {
           </div>
         </div>
         <div className={styles.articleSide}>
-          <div className={styles.sideBlock}>
-            <Button type="primary" onClick={this.submit.bind(this, true)}>发布</Button>
+          <div className={styles.submit}>
+            <Button type="primary" onClick={this.submit.bind(this, true)} className={styles.publish}>发布</Button>
             <Button onClick={this.submit.bind(this, false)}>草稿</Button>
+          </div>
+          <div className={styles.sideBlock}>
+            <h4>分类</h4>
+            <ul>
+            <Checkbox.Group onChange={handleCategoryChange}>
+              {
+                categories.map((item) => <li><Checkbox value={item._id}>{item.label}</Checkbox></li>)
+              }
+            </Checkbox.Group>
+            </ul>
           </div>
         </div>
       </div>
