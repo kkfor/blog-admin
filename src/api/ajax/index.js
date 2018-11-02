@@ -41,25 +41,43 @@ const openNotification = ({type='open', content}) => {
   })
 }
 
-const Ajax = (methods, url, data) => {
-  return new Promise((resolve, reject) => {
-    instance[methods](url, data).then(res => {
-      resolve(res)
-    }).catch(err => {
-      reject(err)
-    })
-  })
-}
+// const Ajax = (methods, url, data) => {
+//   return new Promise((resolve, reject) => {
+//     instance[methods](url, data).then(res => {
+//       resolve(res)
+//     }).catch(err => {
+//       reject(err)
+//     })
+//   })
+// }
 
 export default {
   post(url, data) {
-    Ajax('post', url, data)
+    return new Promise((resolve, reject) => {
+      instance.post(url, data).then(res => {
+        resolve(res)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   },
   put(url, data) {
-    Ajax('put', url, data)
+    return new Promise((resolve, reject) => {
+      instance.put(url, data).then(res => {
+        resolve(res)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   },
-  del(url, data) {
-    Ajax('delete', url, data)
+  del(url) {
+    return new Promise((resolve, reject) => {
+      instance.delete(url).then(res => {
+        resolve(res)
+      }).catch(err => {
+        reject(err)
+      })
+    })
   },
   get(url, params) {
     return new Promise((resolve, reject) => {

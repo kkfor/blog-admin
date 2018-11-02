@@ -1,5 +1,10 @@
-header {
+.header {
   height: 45px;
+  line-height: 45px;
   background: #23282d;
   color: #fff;
+}
+.userName {
+  float: right;
+  padding-right: 20px;
 }

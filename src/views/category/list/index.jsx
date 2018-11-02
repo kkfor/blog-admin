@@ -1,15 +1,14 @@
 import React, { Component, Fragment } from 'react'
-import { Table, Pagination, Button, Modal } from 'antd'
+import { Table, Button, Modal } from 'antd'
 import api from '@/api'
 import styles from './index.scss'
 import history from '@/config/history'
 
-class ArticleList extends Component {
+class CategoryList extends Component {
   constructor(props){
     super(props)
     this.state = {
-      posts: [],
-      total: null,
+      category: [],
       table: {
         pagination: false
       }
@@ -23,10 +22,9 @@ class ArticleList extends Component {
 
   async init() {
     try {
-      const res = await api.article.getArts()
+      const res = await api.category.getCategories()
       this.setState({
-        posts: res.data.arts,
-        total: res.data.total
+        category: res.data
       })
     } catch(err) {
       console.error(err)
@@ -34,7 +32,7 @@ class ArticleList extends Component {
   }
 
   edit(id) {
-    const url = '/article/edit/' + id
+    const url = '/category/edit/' + id
     history.push(url)
   }
 
@@ -47,35 +45,24 @@ class ArticleList extends Component {
       okType: 'danger',
       cancelText: '取消',
       async onOk() {
-        await api.article.delArt(id)
+        await api.category.delCategory(id)
         that.init()
       }
     })
   }
 
   render() {
-    let dataSource = this.state.posts
+    let dataSource = this.state.category
     const columns = [
       {
-        title: '标题',
-        dataIndex: 'title',
-        key: 'title'
+        title: '分类名',
+        dataIndex: 'name',
+        key: 'name'
       },
       {
-        title: '状态',
-        dataIndex: 'publish',
-        key: 'publish',
-        render: (e) => e ? '发布' : '草稿'
-      },
-      {
-        title: '创建时间',
-        dataIndex: 'createAt',
-        key: 'createAt'
-      },
-      {
-        title: '更新时间',
-        dataIndex: 'updateAt',
-        key: 'updateAt'
+        title: '分类值',
+        dataIndex: 'value',
+        key: 'value'
       },
       {
         title: '操作',
@@ -93,10 +80,9 @@ class ArticleList extends Component {
     return (
       <div className={styles.list}>
         <Table {...this.state.table} columns={columns} dataSource={dataSource} rowKey="_id" className={styles.table} />
-        <Pagination total={this.state.total} className={styles.pagination} />
       </div>
     )
   }
 }
 
-export default ArticleList
+export default CategoryList

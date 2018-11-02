@@ -6,17 +6,11 @@ const url = {
 }
 
 export default {
-  async login({username, password}) {
-    return await ajax.post(url.login, {
-      username,
-      password
-    })
+  login(obj) {
+    return ajax.post(url.login, obj)
   },
 
-  async register({username, password}) {
-    return await ajax.post(url.register, {
-      username,
-      password
-    })
+  register(obj) {
+    return ajax.post(url.register, obj)
   }
 }

@@ -16,6 +16,7 @@ class Login extends Component {
         try {
           const res = await api.user.login(values)
           Cookies.set('token', res.data)
+          Cookies.set('username', values.username)
           history.push('/')
         } catch(err){
           console.error(err)
@@ -42,8 +43,8 @@ class Login extends Component {
                 )}
               </FormItem>
               <Button block htmlType="submit" type="primary">登录</Button>
-              </Form>
-            </div>
+            </Form>
+          </div>
         </div>
       </div>
     )
