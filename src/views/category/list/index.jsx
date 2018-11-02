@@ -56,19 +56,19 @@ class CategoryList extends Component {
     const columns = [
       {
         title: '分类名',
-        dataIndex: 'name',
-        key: 'name'
+        dataIndex: 'label',
+        key: 'label'
       },
       {
         title: '分类值',
-        dataIndex: 'value',
-        key: 'value'
+        dataIndex: '_id',
+        key: '_id'
       },
       {
         title: '操作',
         dataIndex: '_id',
         key: '_id',
-        render: (id) => 
+        render: id => 
         (
           <Fragment>
             <Button onClick={this.edit.bind(this, id)}>编辑</Button>
