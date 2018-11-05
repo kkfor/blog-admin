@@ -62,13 +62,6 @@ class CategoryEdit extends Component {
               <Input placeholder="输入分类名"></Input>
             )}
           </FormItem>
-          <FormItem>
-            {getFieldDecorator('value', {
-              initialValue: value
-            })(
-              <Input placeholder="输入分类值"></Input>
-            )}
-          </FormItem>
           <Button htmlType="submit" type="primary">提交</Button>
         </Form>
       </div>
