@@ -56,8 +56,8 @@ class CategoryList extends Component {
     const columns = [
       {
         title: '分类名',
-        dataIndex: 'label',
-        key: 'label'
+        dataIndex: 'slug',
+        key: 'slug'
       },
       {
         title: '分类值',
