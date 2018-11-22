@@ -63,15 +63,6 @@ class ArticleEdit extends Component {
   }
 
   submit = async publish => {
-<<<<<<< HEAD
-    const { id, title, category } = this.state
-    let content = this.state.content.toHTML()
-    try {
-      if(id) {
-        await api.article.putArt(id, {title, content, publish, category})
-      } else {
-        await api.article.postArt({title, content, publish, category})
-=======
     const { title, id, category } = this.state
     let content = this.state.content.toHTML()
     try {
@@ -79,7 +70,6 @@ class ArticleEdit extends Component {
         await api.article.putArt(id, { title, content, publish, category })
       } else {
         await api.article.postArt({ title, content, publish, category })
->>>>>>> a967080eb7ce2f92916ec13a0496422296880fef
       }
     } catch(err) {
       console.error(err)
@@ -114,11 +104,7 @@ class ArticleEdit extends Component {
             <ul>
             <Checkbox.Group onChange={this.handleCategoryChange} value={category}>
               {
-<<<<<<< HEAD
-                categories.map(item => <li key={item._id}><Checkbox value={item._id}>{item.label}</Checkbox></li>)
-=======
                 categories.map(item => <li><Checkbox value={item._id}>{item.label}</Checkbox></li>)
->>>>>>> a967080eb7ce2f92916ec13a0496422296880fef
               }
             </Checkbox.Group>
             </ul>
