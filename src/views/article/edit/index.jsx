@@ -104,7 +104,7 @@ class ArticleEdit extends Component {
             <ul>
             <Checkbox.Group onChange={this.handleCategoryChange} value={category}>
               {
-                categories.map(item => <li><Checkbox value={item._id}>{item.slug}</Checkbox></li>)
+                categories.map((item, index) => <li key={index}><Checkbox value={item._id}>{item.slug}</Checkbox></li>)
               }
             </Checkbox.Group>
             </ul>
