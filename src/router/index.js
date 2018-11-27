@@ -3,6 +3,7 @@ import articleList from '@/views/article/list'
 import articleEdit from '@/views/article/edit'
 import categoryList from '@/views/category/list'
 import categoryEdit from '@/views/category/edit'
+import commentList from '@/views/comment/list'
 
 const route = [
   {
@@ -54,6 +55,19 @@ const route = [
         path: '/edit',
         name: '添加分类',
         components: categoryEdit
+      }
+    ]
+  },
+  {
+    icon: '',
+    path: '/comment',
+    name: '评论',
+    children: [
+      {
+        icon: '',
+        path: '/list',
+        name: '评论列表',
+        components: commentList
       }
     ]
   }

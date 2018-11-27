@@ -8,7 +8,7 @@ class ArticleList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      posts: [],
+      list: [],
       total: null,
       table: {
         pagination: false
@@ -23,9 +23,9 @@ class ArticleList extends Component {
 
   async init() {
     try {
-      const res = await api.article.getList()
+      const res = await api.comment.getList()
       this.setState({
-        posts: res.data.arts,
+        list: res.data.list,
         total: res.data.total
       })
     } catch (err) {
@@ -54,7 +54,7 @@ class ArticleList extends Component {
   }
 
   render() {
-    let dataSource = this.state.posts
+    let dataSource = this.state.list
     const columns = [
       {
         title: '标题',

@@ -1,20 +1,20 @@
 import ajax from '../ajax'
 
 const url = {
-  getItem: '/article/',
-  getList: '/article',
-  postItem: '/article',
-  putItem: '/article/',
-  delItem: '/article/'
+  getList: '/comment',
+  getItem: '/comment/',
+  postItem: '/comment',
+  putItem: '/comment/',
+  delItem: '/comment/'
 }
 
 export default {
+  getList() {
+    return ajax.get(url.getList)
+  },
   getItem(id) {
     const uri = url.getItem + id
     return ajax.get(uri)
-  },
-  getList(params) {
-    return ajax.get(url.getList, params)
   },
   postItem(obj) {
     return ajax.post(url.postItem, obj)
@@ -28,4 +28,3 @@ export default {
     return ajax.del(uri)
   }
 }
-
