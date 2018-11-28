@@ -24,7 +24,7 @@ class CategoryList extends Component {
     try {
       const res = await api.category.getCategories()
       this.setState({
-        category: res.data
+        category: res.result
       })
     } catch(err) {
       console.error(err)

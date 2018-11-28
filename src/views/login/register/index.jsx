@@ -14,7 +14,7 @@ class Login extends Component {
       if(!err) {
         try {
           await api.user.register(values)
-          // Cookies.set('token', res.data)
+          // Cookies.set('token', res.result)
           history.push('/login')
         } catch(err){
           console.error(err)

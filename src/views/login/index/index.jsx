@@ -15,7 +15,7 @@ class Login extends Component {
       if(!err) {
         try {
           const res = await api.user.login(values)
-          Cookies.set('token', res.data)
+          Cookies.set('token', res.result)
           Cookies.set('username', values.username)
           history.push('/')
         } catch(err){

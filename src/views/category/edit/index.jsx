@@ -21,7 +21,7 @@ class CategoryEdit extends Component {
         const res = await api.category.getCategory(id)
         this.setState({
           id,
-          slug: res.data.slug
+          slug: res.result.slug
         })
       } catch(err) {
         console.error(err)
