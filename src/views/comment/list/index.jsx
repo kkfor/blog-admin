@@ -25,8 +25,8 @@ class ArticleList extends Component {
     try {
       const res = await api.comment.getList()
       this.setState({
-        list: res.data.list,
-        total: res.data.total
+        list: res.result.data,
+        total: res.result.total
       })
     } catch (err) {
       console.error(err)

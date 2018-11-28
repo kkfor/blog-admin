@@ -25,7 +25,7 @@ class ArticleList extends Component {
     try {
       const res = await api.article.getList()
       this.setState({
-        posts: res.result.arts,
+        posts: res.result.data,
         total: res.result.total
       })
     } catch (err) {
