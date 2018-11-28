@@ -4,7 +4,7 @@ import api from '@/api'
 import styles from './index.scss'
 import history from '@/config/history'
 
-class ArticleList extends Component {
+class CommentList extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -14,7 +14,6 @@ class ArticleList extends Component {
         pagination: false
       }
     }
-
   }
 
   componentDidMount() {
@@ -54,28 +53,43 @@ class ArticleList extends Component {
   }
 
   render() {
-    let dataSource = this.state.list
+    let { list } = this.state
     const columns = [
       {
-        title: '标题',
-        dataIndex: 'title',
-        key: 'title'
+        title: '文章标题',
+        dataIndex: 'article.title',
+        key: 'article.title'
+      },
+      {
+        title: '评论内容',
+        dataIndex: 'content',
+        key: 'content',
       },
       {
         title: '状态',
-        dataIndex: 'publish',
-        key: 'publish',
-        render: (e) => e ? '发布' : '草稿'
+        dataIndex: 'state',
+        key: 'state'
       },
       {
-        title: '创建时间',
-        dataIndex: 'createAt',
-        key: 'createAt'
+        title: '评论者',
+        dataIndex: 'user.name',
+        key: 'user.name'
       },
       {
-        title: '更新时间',
-        dataIndex: 'updateAt',
-        key: 'updateAt'
+        title: '评论者邮箱',
+        dataIndex: 'user.email',
+        key: 'user.email'
+      },
+      {
+        title: '评论者网站',
+        dataIndex: 'user.site',
+        key: 'user.site',
+        render: e => (e ? e : '未填')
+      },
+      {
+        title: '评论时间',
+        dataIndex: 'createdAt',
+        key: 'createdAt'
       },
       {
         title: '操作',
@@ -84,7 +98,7 @@ class ArticleList extends Component {
         render: (id) =>
           (
             <Fragment>
-              <Button onClick={this.edit.bind(this, id)}>编辑</Button>
+              <Button onClick={this.edit.bind(this, id)} type="primary">回复</Button>
               <Button onClick={this.delete.bind(this, id)} type="danger">删除</Button>
             </Fragment>
           )
@@ -92,11 +106,11 @@ class ArticleList extends Component {
     ]
     return (
       <div className={styles.list}>
-        <Table {...this.state.table} columns={columns} dataSource={dataSource} rowKey="_id" className={styles.table} />
+        <Table pagination={false} columns={columns} dataSource={list} rowKey="_id" className={styles.table} />
         <Pagination total={this.state.total} className={styles.pagination} />
       </div>
     )
   }
 }
 
-export default ArticleList
+export default CommentList
