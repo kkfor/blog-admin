@@ -19,16 +19,16 @@ class ArticleEdit extends Component {
 
   async componentDidMount() {
     const id = this.props.match.params.id
-    if(id) {
+    if (id) {
       try {
-        const arts = await api.article.getArt(id)
+        const arts = await api.article.getItem(id)
         this.setState({
           id,
           title: arts.data.title,
           content: BraftEditor.createEditorState(arts.data.content),
           category: arts.data.category
         })
-      } catch(err) {
+      } catch (err) {
         console.error(err)
       }
     }
@@ -37,14 +37,14 @@ class ArticleEdit extends Component {
       this.setState({
         categories: categories.data
       })
-    }catch(err) {
+    } catch (err) {
       console.error(err)
     }
   }
 
   handleTitleChange = (e) => {
     const title = e.target.value
-    this.setState({title})
+    this.setState({ title })
   }
 
   handleCategoryChange = (e) => {
@@ -54,7 +54,7 @@ class ArticleEdit extends Component {
   }
 
   handleEditorChange = (content) => {
-    this.setState({content})
+    this.setState({ content })
   }
 
 
@@ -66,12 +66,12 @@ class ArticleEdit extends Component {
     const { title, id, category } = this.state
     let content = this.state.content.toHTML()
     try {
-      if(id) {
-        await api.article.putArt(id, { title, content, publish, category })
+      if (id) {
+        await api.article.putItem(id, { title, content, publish, category })
       } else {
-        await api.article.postArt({ title, content, publish, category })
+        await api.article.postItem({ title, content, publish, category })
       }
-    } catch(err) {
+    } catch (err) {
       console.error(err)
     }
   }
@@ -102,11 +102,11 @@ class ArticleEdit extends Component {
           <div className={styles.sideBlock}>
             <h4>分类</h4>
             <ul>
-            <Checkbox.Group onChange={this.handleCategoryChange} value={category}>
-              {
-                categories.map((item, index) => <li key={index}><Checkbox value={item._id}>{item.slug}</Checkbox></li>)
-              }
-            </Checkbox.Group>
+              <Checkbox.Group onChange={this.handleCategoryChange} value={category}>
+                {
+                  categories.map((item, index) => <li key={index}><Checkbox value={item._id}>{item.slug}</Checkbox></li>)
+                }
+              </Checkbox.Group>
             </ul>
           </div>
         </div>
