@@ -24,9 +24,9 @@ class ArticleEdit extends Component {
         const arts = await api.article.getItem(id)
         this.setState({
           id,
-          title: arts.data.title,
-          content: BraftEditor.createEditorState(arts.data.content),
-          category: arts.data.category
+          title: arts.result.title,
+          content: BraftEditor.createEditorState(arts.result.content),
+          category: arts.result.category
         })
       } catch (err) {
         console.error(err)
@@ -35,7 +35,7 @@ class ArticleEdit extends Component {
     try {
       const categories = await api.category.getCategories()
       this.setState({
-        categories: categories.data
+        categories: categories.result
       })
     } catch (err) {
       console.error(err)
