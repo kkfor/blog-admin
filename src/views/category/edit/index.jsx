@@ -10,7 +10,8 @@ class CategoryEdit extends Component {
     super(props)
     this.state = {
       id: null,
-      slug: null
+      slug: null,
+      url: null
     }
   }
 
@@ -49,7 +50,7 @@ class CategoryEdit extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const { slug } = this.state
+    const { slug, url } = this.state
     return (
       <div className={styles.main}>
         <Form onSubmit={this.handleSubmit} className={styles.form}>
@@ -58,6 +59,13 @@ class CategoryEdit extends Component {
               initialValue: slug
             })(
               <Input placeholder="输入分类名"></Input>
+            )}
+          </FormItem>
+          <FormItem>
+            {getFieldDecorator('url', {
+              initialValue: url
+            })(
+              <Input placeholder="输入分类url"></Input>
             )}
           </FormItem>
           <Button htmlType="submit" type="primary">提交</Button>

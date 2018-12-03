@@ -60,9 +60,9 @@ class CategoryList extends Component {
         key: 'slug'
       },
       {
-        title: '分类值',
-        dataIndex: '_id',
-        key: '_id'
+        title: 'url',
+        dataIndex: 'url',
+        key: 'url'
       },
       {
         title: '操作',

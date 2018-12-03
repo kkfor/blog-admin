@@ -5,6 +5,7 @@ import styles from './index.scss'
 import { Button, Input, Checkbox } from 'antd'
 import api from '@/api'
 
+const { TextArea } = Input
 class ArticleEdit extends Component {
   constructor(props) {
     super(props)
@@ -25,7 +26,8 @@ class ArticleEdit extends Component {
         this.setState({
           id,
           title: arts.result.title,
-          content: BraftEditor.createEditorState(arts.result.content),
+          // content: BraftEditor.createEditorState(arts.result.content),
+          content: arts.result.content,
           category: arts.result.category
         })
       } catch (err) {
@@ -53,7 +55,8 @@ class ArticleEdit extends Component {
     })
   }
 
-  handleEditorChange = (content) => {
+  handleEditorChange = (e) => {
+    const content = e.target.value
     this.setState({ content })
   }
 
@@ -63,8 +66,8 @@ class ArticleEdit extends Component {
   }
 
   submit = async publish => {
-    const { title, id, category } = this.state
-    let content = this.state.content.toHTML()
+    const { title, id, category, content } = this.state
+    // let content = this.state.content.toHTML()
     try {
       if (id) {
         await api.article.putItem(id, { title, content, publish, category })
@@ -85,13 +88,14 @@ class ArticleEdit extends Component {
             <Input placeholder="标题" value={title} onChange={this.handleTitleChange} />
           </div>
           <div className={styles.editor}>
-            <BraftEditor
+            {/* <BraftEditor
               defaultValue={content}
               value={content}
               // media={{uploadFn: this.uploadFn}}
               onChange={this.handleEditorChange}
               onSave={this.submit}
-            />
+            /> */}
+            <TextArea rows={4} value={content} className={styles.textarea} onChange={this.handleEditorChange}/>
           </div>
         </div>
         <div className={styles.articleSide}>

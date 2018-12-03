@@ -40,6 +40,7 @@
 }
 
 .editor {
-  border: 1px solid #ccc;
-  background: #fff;
+  .textarea {
+    height: 500px;
+  }
 }
