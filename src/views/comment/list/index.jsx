@@ -17,12 +17,14 @@ class CommentList extends Component {
   }
 
   componentDidMount() {
-    this.init()
+    this.getList()
   }
 
-  async init() {
+  async getList(page = 1) {
     try {
-      const res = await api.comment.getList()
+      const res = await api.comment.getList({
+        page
+      })
       this.setState({
         list: res.result.data,
         total: res.result.total
@@ -32,9 +34,12 @@ class CommentList extends Component {
     }
   }
 
-  edit(id) {
-    const url = '/article/edit/' + id
-    history.push(url)
+  paginationChange(page) {
+    this.getList(page)
+  }
+
+  reply(id) {
+    
   }
 
   delete(id) {
@@ -98,7 +103,7 @@ class CommentList extends Component {
         render: (id) =>
           (
             <Fragment>
-              <Button onClick={this.edit.bind(this, id)} type="primary">回复</Button>
+              <Button onClick={this.reply.bind(this, id)} type="primary">回复</Button>
               <Button onClick={this.delete.bind(this, id)} type="danger">删除</Button>
             </Fragment>
           )
@@ -107,7 +112,7 @@ class CommentList extends Component {
     return (
       <div className={styles.list}>
         <Table pagination={false} columns={columns} dataSource={list} rowKey="_id" className={styles.table} />
-        <Pagination total={this.state.total} className={styles.pagination} />
+        <Pagination total={this.state.total} className={styles.pagination} onChange={this.paginationChange} />
       </div>
     )
   }

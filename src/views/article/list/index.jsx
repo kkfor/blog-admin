@@ -9,21 +9,20 @@ class ArticleList extends Component {
     super(props)
     this.state = {
       posts: [],
-      total: null,
-      table: {
-        pagination: false
-      }
+      total: null
     }
 
   }
 
   componentDidMount() {
-    this.init()
+    this.getList()
   }
 
-  async init() {
+  async getList(page = 1) {
     try {
-      const res = await api.article.getList()
+      const res = await api.article.getList({
+        page
+      })
       this.setState({
         posts: res.result.data,
         total: res.result.total
@@ -53,6 +52,10 @@ class ArticleList extends Component {
     })
   }
 
+  paginationChange = (page) => {
+    this.getList(page)
+  }
+
   render() {
     let dataSource = this.state.posts
     const columns = [
@@ -69,13 +72,13 @@ class ArticleList extends Component {
       },
       {
         title: '创建时间',
-        dataIndex: 'createAt',
-        key: 'createAt'
+        dataIndex: 'createdAt',
+        key: 'createdAt'
       },
       {
         title: '更新时间',
-        dataIndex: 'updateAt',
-        key: 'updateAt'
+        dataIndex: 'updatedAt',
+        key: 'updatedAt'
       },
       {
         title: '操作',
@@ -92,8 +95,8 @@ class ArticleList extends Component {
     ]
     return (
       <div className={styles.list}>
-        <Table {...this.state.table} columns={columns} dataSource={dataSource} rowKey="_id" className={styles.table} />
-        <Pagination total={this.state.total} className={styles.pagination} />
+        <Table pagination={false} columns={columns} dataSource={dataSource} rowKey="_id" className={styles.table} />
+        <Pagination total={this.state.total} className={styles.pagination} onChange={this.paginationChange} />
       </div>
     )
   }
