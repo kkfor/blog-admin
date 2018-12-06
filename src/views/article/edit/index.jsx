@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import BraftEditor from 'braft-editor'
 import 'braft-editor/dist/index.css'
 import styles from './index.scss'
-import { Button, Input, Checkbox } from 'antd'
+import { Button, Input, Checkbox, Upload } from 'antd'
 import api from '@/api'
 
 const { TextArea } = Input
@@ -14,11 +14,13 @@ class ArticleEdit extends Component {
       title: null,
       content: null,
       category: [],
-      categories: []
+      categories: [],
+      upToken: null
     }
   }
 
   async componentDidMount() {
+    this.getToken()
     const id = this.props.match.params.id
     if (id) {
       try {
@@ -42,6 +44,14 @@ class ArticleEdit extends Component {
     } catch (err) {
       console.error(err)
     }
+  }
+
+  async getToken() {
+    const res = await api.qiniu.getToken()
+    this.setState({
+      upToken: res.result
+    })
+    console.log(this.state.upToken)
   }
 
   handleTitleChange = (e) => {
@@ -80,13 +90,19 @@ class ArticleEdit extends Component {
   }
 
   render() {
-    const { content, title, categories, category } = this.state
+    const { content, title, categories, category, upToken } = this.state
     return (
       <div className={styles.article}>
         <div className={styles.content}>
           <div className={styles.title}>
             <Input placeholder="标题" value={title} onChange={this.handleTitleChange} />
           </div>
+          <Upload
+            action="http://upload.qiniup.com/"
+            data={{token: upToken}}
+          >
+            <Button>上传图片</Button>
+          </Upload>
           <div className={styles.editor}>
             {/* <BraftEditor
               defaultValue={content}
