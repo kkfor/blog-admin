@@ -98,8 +98,8 @@ class ArticleEdit extends Component {
             <Input placeholder="标题" value={title} onChange={this.handleTitleChange} />
           </div>
           <Upload
-            action="http://upload.qiniup.com/"
-            data={{token: upToken}}
+            action="http://upload-z2.qiniup.com"
+            data={{token: upToken, key: 'xxx.jpg'}}
           >
             <Button>上传图片</Button>
           </Upload>
