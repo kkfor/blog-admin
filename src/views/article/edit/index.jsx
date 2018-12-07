@@ -77,7 +77,7 @@ class ArticleEdit extends Component {
   beforeUpload(file) {
     console.log(file)
     this.setState({
-      uploadFileName: date(new Date(), 'yyyyMMdd_HHmmssSSS_' + file.name)
+      uploadFileName: date(new Date(), 'yyyyMMdd_HHmmssSSS_') + file.name
     })
   }
 
