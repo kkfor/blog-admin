@@ -4,6 +4,8 @@ import 'braft-editor/dist/index.css'
 import styles from './index.scss'
 import { Button, Input, Checkbox, Upload } from 'antd'
 import api from '@/api'
+import { date } from '@/utils'
+import config from '@/config'
 
 const { TextArea } = Input
 class ArticleEdit extends Component {
@@ -15,7 +17,9 @@ class ArticleEdit extends Component {
       content: null,
       category: [],
       categories: [],
-      upToken: null
+      upToken: null,
+      uploadFileName: '',
+      uploadList: []
     }
   }
 
@@ -70,6 +74,28 @@ class ArticleEdit extends Component {
     this.setState({ content })
   }
 
+  beforeUpload(file) {
+    console.log(file)
+    this.setState({
+      uploadFileName: date(new Date(), 'yyyyMMdd_HHmmssSSS_' + file.name)
+    })
+  }
+
+  fileHandler(e) {
+    const { uploadList } = this.state
+    if(e.file.status === 'done') {
+      const fileName = e.file.name
+      const url = config.staticURL + '/' + e.file.response.key
+      uploadList.push({
+        fileName,
+        url
+      })
+      this.setState({
+        uploadList
+      })
+    }
+    
+  }
 
   uploadFn = (params) => {
     console.log(params)
@@ -90,7 +116,7 @@ class ArticleEdit extends Component {
   }
 
   render() {
-    const { content, title, categories, category, upToken } = this.state
+    const { content, title, categories, category, upToken, uploadFileName, uploadList } = this.state
     return (
       <div className={styles.article}>
         <div className={styles.content}>
@@ -98,11 +124,28 @@ class ArticleEdit extends Component {
             <Input placeholder="标题" value={title} onChange={this.handleTitleChange} />
           </div>
           <Upload
-            action="http://upload-z2.qiniup.com"
-            data={{token: upToken, key: 'xxx.jpg'}}
+            onChange={this.fileHandler.bind(this)}
+            beforeUpload={this.beforeUpload.bind(this)}
+            action={config.upLoadImg}
+            data={{token: upToken, key: uploadFileName}}
+            showUploadList={false}
           >
             <Button>上传图片</Button>
           </Upload>
+          <div>
+            {
+              uploadList.map((item, index) => (
+                <div key={index}>
+                  <span>
+                    {item.fileName}
+                  </span>-
+                  <span>
+                    {item.url}
+                  </span>
+                </div>
+              ))
+            }
+          </div>
           <div className={styles.editor}>
             {/* <BraftEditor
               defaultValue={content}
