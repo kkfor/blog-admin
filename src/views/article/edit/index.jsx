@@ -4,8 +4,9 @@ import 'braft-editor/dist/index.css'
 import styles from './index.scss'
 import { Button, Input, Checkbox, Upload } from 'antd'
 import api from '@/api'
-import { date } from '@/utils'
+import { date, resizeImg } from '@/utils'
 import config from '@/config'
+import { qiniu } from '@/utils'
 
 const { TextArea } = Input
 class ArticleEdit extends Component {
@@ -55,7 +56,6 @@ class ArticleEdit extends Component {
     this.setState({
       upToken: res.result
     })
-    console.log(this.state.upToken)
   }
 
   handleTitleChange = (e) => {
@@ -73,32 +73,26 @@ class ArticleEdit extends Component {
     const content = e.target.value
     this.setState({ content })
   }
+  
+  // 自定义上传
+  async customRequest(e) {
+    const file = e.file
+    const { upToken, uploadList } = this.state
+    const fileName = date(new Date(), 'yyyyMMdd_HHmmssSSS_') + file.name
 
-  beforeUpload(file) {
-    console.log(file)
-    this.setState({
-      uploadFileName: date(new Date(), 'yyyyMMdd_HHmmssSSS_') + file.name
+    const newFile = await resizeImg(file)
+    const res = await qiniu(newFile, fileName, upToken)
+
+    const url = config.staticURL + '/' + res.key
+    uploadList.push({
+      fileName,
+      url
     })
-  }
+    this.setState({
+      uploadList
+    })
 
-  fileHandler(e) {
-    const { uploadList } = this.state
-    if(e.file.status === 'done') {
-      const fileName = e.file.name
-      const url = config.staticURL + '/' + e.file.response.key
-      uploadList.push({
-        fileName,
-        url
-      })
-      this.setState({
-        uploadList
-      })
-    }
-    
-  }
-
-  uploadFn = (params) => {
-    console.log(params)
+    console.log(newFile)
   }
 
   submit = async publish => {
@@ -116,7 +110,7 @@ class ArticleEdit extends Component {
   }
 
   render() {
-    const { content, title, categories, category, upToken, uploadFileName, uploadList } = this.state
+    const { content, title, categories, category, uploadList } = this.state
     return (
       <div className={styles.article}>
         <div className={styles.content}>
@@ -124,10 +118,7 @@ class ArticleEdit extends Component {
             <Input placeholder="标题" value={title} onChange={this.handleTitleChange} />
           </div>
           <Upload
-            onChange={this.fileHandler.bind(this)}
-            beforeUpload={this.beforeUpload.bind(this)}
-            action={config.upLoadImg}
-            data={{token: upToken, key: uploadFileName}}
+            customRequest={this.customRequest.bind(this)}
             showUploadList={false}
           >
             <Button>上传图片</Button>
