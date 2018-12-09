@@ -3,6 +3,7 @@ import { Table, Pagination, Button, Modal } from 'antd'
 import api from '@/api'
 import styles from './index.scss'
 import history from '@/config/history'
+import { date } from '@/utils'
 
 class CommentList extends Component {
   constructor(props) {
@@ -94,7 +95,8 @@ class CommentList extends Component {
       {
         title: '评论时间',
         dataIndex: 'createdAt',
-        key: 'createdAt'
+        key: 'createdAt',
+        render: (e) => date(e)
       },
       {
         title: '操作',

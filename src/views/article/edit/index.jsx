@@ -1,14 +1,20 @@
 import React, { Component } from 'react'
-import BraftEditor from 'braft-editor'
-import 'braft-editor/dist/index.css'
 import styles from './index.scss'
-import { Button, Input, Checkbox, Upload } from 'antd'
+import { Button, Input, Checkbox, Upload, notification } from 'antd'
 import api from '@/api'
 import { date, resizeImg } from '@/utils'
 import config from '@/config'
 import { qiniu } from '@/utils'
 
 const { TextArea } = Input
+
+const openNotification = ({type='open', content}) => {
+  notification[type]({
+    message: '通知',
+    description: content,
+    duration: 2
+  })
+}
 class ArticleEdit extends Component {
   constructor(props) {
     super(props)
@@ -33,7 +39,6 @@ class ArticleEdit extends Component {
         this.setState({
           id,
           title: arts.result.title,
-          // content: BraftEditor.createEditorState(arts.result.content),
           content: arts.result.content,
           category: arts.result.category
         })
@@ -75,8 +80,20 @@ class ArticleEdit extends Component {
   }
   
   // 自定义上传
-  async customRequest(e) {
+  customRequest(e) {
+    const { id } = this.state
+    if(!id) {
+      openNotification({type: 'error', content: '上传失败,请先发布文章'})
+      return
+    }
+
     const file = e.file
+    this.imageHandler(file)
+  }
+
+  // 图片处理
+  async imageHandler(file) {
+    const { id } = this.state
     const { upToken, uploadList } = this.state
     const fileName = date(new Date(), 'yyyyMMdd_HHmmssSSS_') + file.name
 
@@ -84,6 +101,14 @@ class ArticleEdit extends Component {
     const res = await qiniu(newFile, fileName, upToken)
 
     const url = config.staticURL + '/' + res.key
+
+    // 储存图片信息
+    await api.image.postItem({
+      article: id,
+      image: fileName,
+      url
+    })
+
     uploadList.push({
       fileName,
       url
@@ -91,18 +116,19 @@ class ArticleEdit extends Component {
     this.setState({
       uploadList
     })
-
-    console.log(newFile)
   }
 
+  // 文章提交
   submit = async publish => {
     const { title, id, category, content } = this.state
-    // let content = this.state.content.toHTML()
     try {
       if (id) {
         await api.article.putItem(id, { title, content, publish, category })
       } else {
-        await api.article.postItem({ title, content, publish, category })
+        const res = await api.article.postItem({ title, content, publish, category })
+        this.setState({
+          id: res.result._id
+        })
       }
     } catch (err) {
       console.error(err)
@@ -138,13 +164,6 @@ class ArticleEdit extends Component {
             }
           </div>
           <div className={styles.editor}>
-            {/* <BraftEditor
-              defaultValue={content}
-              value={content}
-              // media={{uploadFn: this.uploadFn}}
-              onChange={this.handleEditorChange}
-              onSave={this.submit}
-            /> */}
             <TextArea rows={4} value={content} className={styles.textarea} onChange={this.handleEditorChange}/>
           </div>
         </div>

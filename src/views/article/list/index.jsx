@@ -3,13 +3,15 @@ import { Table, Pagination, Button, Modal } from 'antd'
 import api from '@/api'
 import styles from './index.scss'
 import history from '@/config/history'
+import { date } from '@/utils'
 
 class ArticleList extends Component {
   constructor(props) {
     super(props)
     this.state = {
       posts: [],
-      total: null
+      total: null,
+      page: 1
     }
 
   }
@@ -38,6 +40,7 @@ class ArticleList extends Component {
   }
 
   delete(id) {
+    const { page } = this.state
     let that = this
     Modal.confirm({
       title: '提示?',
@@ -47,12 +50,15 @@ class ArticleList extends Component {
       cancelText: '取消',
       async onOk() {
         await api.article.delItem(id)
-        that.init()
+        that.getList(page)
       }
     })
   }
 
   paginationChange = (page) => {
+    this.setState({
+      page
+    })
     this.getList(page)
   }
 
@@ -73,12 +79,14 @@ class ArticleList extends Component {
       {
         title: '创建时间',
         dataIndex: 'createdAt',
-        key: 'createdAt'
+        key: 'createdAt',
+        render: (e) => date(e) 
       },
       {
         title: '更新时间',
         dataIndex: 'updatedAt',
-        key: 'updatedAt'
+        key: 'updatedAt',
+        render: (e) => date(e)
       },
       {
         title: '操作',

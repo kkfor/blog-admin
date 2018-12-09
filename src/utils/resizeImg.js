@@ -35,7 +35,6 @@ export default (file, width=800) => {
 
         // 清除画布
         context.clearRect(0, 0, targetWidth, targetHeight);
-        debugger
         // 填充画布
         context.drawImage(img, 0, 0, targetWidth, targetHeight)
 

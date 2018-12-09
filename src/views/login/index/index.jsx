@@ -39,7 +39,7 @@ class Login extends Component {
               </FormItem>
               <FormItem>
                 {getFieldDecorator('password')(
-                  <Input placeholder="输入密码"></Input>
+                  <Input placeholder="输入密码" type="password"></Input>
                 )}
               </FormItem>
               <Button block htmlType="submit" type="primary">登录</Button>
