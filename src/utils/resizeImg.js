@@ -40,11 +40,8 @@ export default (file, width=800) => {
 
         canvas.toBlob(function (blob) {
           resolve(blob)
-        }, file.type || 'image/png')
+        }, file.type || 'image/png', 0.6)
       }
     }
-
   })
-
-
 }

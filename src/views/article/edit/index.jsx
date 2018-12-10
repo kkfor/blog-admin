@@ -8,7 +8,7 @@ import { qiniu } from '@/utils'
 
 const { TextArea } = Input
 
-const openNotification = ({type='open', content}) => {
+const openNotification = ({ type = 'open', content }) => {
   notification[type]({
     message: '通知',
     description: content,
@@ -34,17 +34,8 @@ class ArticleEdit extends Component {
     this.getToken()
     const id = this.props.match.params.id
     if (id) {
-      try {
-        const arts = await api.article.getItem(id)
-        this.setState({
-          id,
-          title: arts.result.title,
-          content: arts.result.content,
-          category: arts.result.category
-        })
-      } catch (err) {
-        console.error(err)
-      }
+      this.initItem(id)
+      this.initImage(id)
     }
     try {
       const categories = await api.category.getCategories()
@@ -54,6 +45,29 @@ class ArticleEdit extends Component {
     } catch (err) {
       console.error(err)
     }
+  }
+
+  // 初始化文章
+  async initItem(id) {
+    try {
+      const arts = await api.article.getItem(id)
+      this.setState({
+        id,
+        title: arts.result.title,
+        content: arts.result.content,
+        category: arts.result.category
+      })
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  // 初始化图片
+  async initImage(id) {
+    const res = await api.image.getList({article: id})
+    this.setState({
+      uploadList: res.result
+    })
   }
 
   async getToken() {
@@ -78,12 +92,12 @@ class ArticleEdit extends Component {
     const content = e.target.value
     this.setState({ content })
   }
-  
+
   // 自定义上传
   customRequest(e) {
     const { id } = this.state
-    if(!id) {
-      openNotification({type: 'error', content: '上传失败,请先发布文章'})
+    if (!id) {
+      openNotification({ type: 'error', content: '上传失败,请先发布文章' })
       return
     }
 
@@ -110,7 +124,7 @@ class ArticleEdit extends Component {
     })
 
     uploadList.push({
-      fileName,
+      image: fileName,
       url
     })
     this.setState({
@@ -149,22 +163,18 @@ class ArticleEdit extends Component {
           >
             <Button>上传图片</Button>
           </Upload>
-          <div>
+          <div className={styles.imageList}>
             {
               uploadList.map((item, index) => (
-                <div key={index}>
-                  <span>
-                    {item.fileName}
-                  </span>-
-                  <span>
-                    {item.url}
-                  </span>
+                <div className={styles.imageItem} key={index}>
+                  <img src={item.url} alt={item.image}/>
+                  {item.image}
                 </div>
               ))
             }
           </div>
           <div className={styles.editor}>
-            <TextArea rows={4} value={content} className={styles.textarea} onChange={this.handleEditorChange}/>
+            <TextArea rows={4} value={content} className={styles.textarea} onChange={this.handleEditorChange} />
           </div>
         </div>
         <div className={styles.articleSide}>
