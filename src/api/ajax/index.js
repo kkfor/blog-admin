@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
 
 const instance = axios.create({
   baseURL: config.baseURL,
-  withCredentials: true
+  // withCredentials: true
 }) 
 
 instance.interceptors.request.use(function(req) {
@@ -17,19 +17,14 @@ instance.interceptors.request.use(function(req) {
   return req
 })
 instance.interceptors.response.use(function(res) {
-  if(res.status === 200) {
-    if(res.data.code === 1) {
-      openNotification({type: 'success', content: res.data.message})
-      return res.data
-    }
-    if(res.data.code === 0) {
-      openNotification({type: 'error', content: res.data.message})
-      throw new Error(res.data.message)
-    }
+  if(res.status === 200 || res.status === 201) {
+    return res.data
+  } else {
+    openNotification({type: 'error', content: '请求出错'})
   }
 }, function(error) {
   if (error.response && error.response.status === 401) {
-    openNotification({type: 'error', content: error.response.data.message})
+    openNotification({type: 'error', content: '暂无权限'})
   }
 })
 
@@ -41,53 +36,29 @@ const openNotification = ({type='open', content}) => {
   })
 }
 
-// const Ajax = (methods, url, data) => {
-//   return new Promise((resolve, reject) => {
-//     instance[methods](url, data).then(res => {
-//       resolve(res)
-//     }).catch(err => {
-//       reject(err)
-//     })
-//   })
-// }
+const Ajax = (methods, url, data) => {
+  return new Promise((resolve, reject) => {
+    instance[methods](url, data).then(res => {
+      resolve(res)
+    }).catch(err => {
+      reject(err)
+    })
+  })
+}
 
 export default {
   post(url, data) {
-    return new Promise((resolve, reject) => {
-      instance.post(url, data).then(res => {
-        resolve(res)
-      }).catch(err => {
-        reject(err)
-      })
-    })
+    return Ajax('post', url, data)
   },
   put(url, data) {
-    return new Promise((resolve, reject) => {
-      instance.put(url, data).then(res => {
-        resolve(res)
-      }).catch(err => {
-        reject(err)
-      })
-    })
+    return Ajax('put', url, data)
   },
   del(url) {
-    return new Promise((resolve, reject) => {
-      instance.delete(url).then(res => {
-        resolve(res)
-      }).catch(err => {
-        reject(err)
-      })
-    })
+    return Ajax('delete', url)
   },
   get(url, params) {
-    return new Promise((resolve, reject) => {
-      instance.get(url, {
-        params: params
-      }).then(res => {
-        resolve(res)
-      }).catch(err => {
-        reject(err)
-      })
+    return Ajax('get', url, {
+      params
     })
   }
 }

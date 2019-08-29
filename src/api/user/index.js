@@ -1,7 +1,7 @@
 import ajax from '../ajax'
 
 const url = {
-  login: '/user/login',
+  login: '/auth/login',
   register: '/user/register'
 }
 

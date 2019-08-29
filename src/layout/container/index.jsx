@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import styles from './index.scss'
+import styles from './index.module.scss'
 import { Route, Link, Switch } from 'react-router-dom'
 import route from '../../router'
 import Cookies from 'js-cookie'
