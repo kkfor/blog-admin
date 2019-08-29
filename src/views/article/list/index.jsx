@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Table, Pagination, Button, Modal } from 'antd'
 import api from '@/api'
-import styles from './index.scss'
+import styles from './index.module.scss'
 import history from '@/config/history'
 import { date } from '@/utils'
 

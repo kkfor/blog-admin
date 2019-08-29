@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styles from './index.scss'
+import styles from './index.module.scss'
 import { Button, Input, Checkbox, Upload, notification } from 'antd'
 import api from '@/api'
 import { date, resizeImg } from '@/utils'

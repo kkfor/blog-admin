@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import styles from './index.scss'
+import styles from './index.module.scss'
 import { Input, Button, Form } from 'antd'
 import history from '@/config/history'
 import api from '@/api'
