@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Table, Button, Modal } from 'antd'
 import api from '@/api'
-import styles from './index.scss'
+import styles from './index.module.scss'
 import history from '@/config/history'
 
 class CategoryList extends Component {
@@ -24,7 +24,7 @@ class CategoryList extends Component {
     try {
       const res = await api.category.getCategories()
       this.setState({
-        category: res.result
+        category: res
       })
     } catch(err) {
       console.error(err)

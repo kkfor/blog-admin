@@ -5,8 +5,7 @@ import api from '@/api'
 import { date, resizeImg } from '@/utils'
 import config from '@/config'
 import { qiniu } from '@/utils'
-
-const { TextArea } = Input
+import Editor from 'for-editor'
 
 const openNotification = ({ type = 'open', content }) => {
   notification[type]({
@@ -21,7 +20,7 @@ class ArticleEdit extends Component {
     this.state = {
       id: null,
       title: null,
-      content: null,
+      content: '',
       category: [],
       categories: [],
       upToken: null,
@@ -31,7 +30,7 @@ class ArticleEdit extends Component {
   }
 
   async componentDidMount() {
-    this.getToken()
+    // this.getToken()
     const id = this.props.match.params.id
     if (id) {
       this.initItem(id)
@@ -40,7 +39,7 @@ class ArticleEdit extends Component {
     try {
       const categories = await api.category.getCategories()
       this.setState({
-        categories: categories.result
+        categories: categories
       })
     } catch (err) {
       console.error(err)
@@ -88,8 +87,7 @@ class ArticleEdit extends Component {
     })
   }
 
-  handleEditorChange = (e) => {
-    const content = e.target.value
+  handleEditorChange = (content) => {
     this.setState({ content })
   }
 
@@ -141,7 +139,7 @@ class ArticleEdit extends Component {
       } else {
         const res = await api.article.postItem({ title, content, publish, category })
         this.setState({
-          id: res.result._id
+          id: res._id
         })
       }
     } catch (err) {
@@ -174,7 +172,7 @@ class ArticleEdit extends Component {
             }
           </div>
           <div className={styles.editor}>
-            <TextArea rows={4} value={content} className={styles.textarea} onChange={this.handleEditorChange} />
+            <Editor value={content} onChange={this.handleEditorChange} />
           </div>
         </div>
         <div className={styles.articleSide}>

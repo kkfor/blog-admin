@@ -26,8 +26,8 @@ class ArticleList extends Component {
         page
       })
       this.setState({
-        posts: res.result.data,
-        total: res.result.total
+        posts: res.data,
+        total: res.total
       })
     } catch (err) {
       console.error(err)
@@ -72,8 +72,8 @@ class ArticleList extends Component {
       },
       {
         title: '状态',
-        dataIndex: 'publish',
-        key: 'publish',
+        dataIndex: 'state',
+        key: 'state',
         render: (e) => e ? '发布' : '草稿'
       },
       {

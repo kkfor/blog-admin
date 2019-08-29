@@ -10,6 +10,7 @@ class CategoryEdit extends Component {
     super(props)
     this.state = {
       id: null,
+      name: null,
       slug: null,
       url: null
     }
@@ -22,7 +23,9 @@ class CategoryEdit extends Component {
         const res = await api.category.getCategory(id)
         this.setState({
           id,
-          slug: res.result.slug
+          name: res.name,
+          slug: res.slug,
+          url: res.url
         })
       } catch(err) {
         console.error(err)
@@ -50,15 +53,22 @@ class CategoryEdit extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const { slug, url } = this.state
+    const { name, slug, url } = this.state
     return (
       <div className={styles.main}>
         <Form onSubmit={this.handleSubmit} className={styles.form}>
+        <FormItem>
+            {getFieldDecorator('name', {
+              initialValue: name
+            })(
+              <Input placeholder="输入分类名"></Input>
+            )}
+          </FormItem>
           <FormItem>
             {getFieldDecorator('slug', {
               initialValue: slug
             })(
-              <Input placeholder="输入分类名"></Input>
+              <Input placeholder="输入分类别名"></Input>
             )}
           </FormItem>
           <FormItem>
