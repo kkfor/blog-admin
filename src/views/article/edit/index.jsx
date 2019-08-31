@@ -34,7 +34,7 @@ class ArticleEdit extends Component {
     const id = this.props.match.params.id
     if (id) {
       this.initItem(id)
-      this.initImage(id)
+      // this.initImage(id)
     }
     try {
       const categories = await api.category.getCategories()
@@ -52,9 +52,9 @@ class ArticleEdit extends Component {
       const arts = await api.article.getItem(id)
       this.setState({
         id,
-        title: arts.result.title,
-        content: arts.result.content,
-        category: arts.result.category
+        title: arts.title,
+        content: arts.content,
+        category: arts.category
       })
     } catch (err) {
       console.error(err)
@@ -131,13 +131,13 @@ class ArticleEdit extends Component {
   }
 
   // 文章提交
-  submit = async publish => {
+  submit = async state => {
     const { title, id, category, content } = this.state
     try {
       if (id) {
-        await api.article.putItem(id, { title, content, publish, category })
+        await api.article.putItem(id, { title, content, state, category })
       } else {
-        const res = await api.article.postItem({ title, content, publish, category })
+        const res = await api.article.postItem({ title, content, state, category })
         this.setState({
           id: res._id
         })
@@ -177,8 +177,8 @@ class ArticleEdit extends Component {
         </div>
         <div className={styles.articleSide}>
           <div className={styles.submit}>
-            <Button type="primary" onClick={this.submit.bind(this, true)} className={styles.publish}>发布</Button>
-            <Button onClick={this.submit.bind(this, false)}>草稿</Button>
+            <Button type="primary" onClick={this.submit.bind(this, 1)} className={styles.publish}>发布</Button>
+            <Button onClick={this.submit.bind(this, 0)}>草稿</Button>
           </div>
           <div className={styles.sideBlock}>
             <h4>分类</h4>

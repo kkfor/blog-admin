@@ -74,7 +74,15 @@ class ArticleList extends Component {
         title: '状态',
         dataIndex: 'state',
         key: 'state',
-        render: (e) => e ? '发布' : '草稿'
+        render: (e) => {
+          if(e === 1)  {
+            return '发布'
+          } else if(e === 2) {
+            return '回收站'
+          } else {
+            return '草稿'
+          }
+        }
       },
       {
         title: '创建时间',
