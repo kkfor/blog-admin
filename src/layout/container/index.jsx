@@ -6,20 +6,35 @@ import Cookies from 'js-cookie'
 import history from '@/config/history'
 
 class Container extends Component {
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      pathname: ''
+    }
+  }
+
   componentDidMount() {
+    const pathname = history.location.pathname
+    this.setState({
+      pathname
+    })
     const token = Cookies.get('token')
     if (!token) {
       history.push('/login')
     }
   }
   render() {
+    const { pathname } = this.state
+
     return (
       <Fragment>
         <aside className={styles.aside}>
           <ul>
             {route.map((item, index) => (
               <li key={index}>
-                <div><Link to={item.path}>{item.name}</Link></div>
+                <div className={item.path === pathname ? styles.active : '' }><Link to={item.path}>{item.name}</Link></div>
                 {this.renderChildren(item)}
               </li>
             ))}
@@ -35,6 +50,8 @@ class Container extends Component {
   }
 
   renderChildren(item, route) {
+    const { pathname } = this.state
+
     if (item.children && item.children.length) {
       if (route) {
         const list = []
@@ -54,7 +71,7 @@ class Container extends Component {
             {item.children.map((subitem, subindex) => {
               if (!subitem.hide) {
                 return (
-                  <li key={subindex}>
+                  <li key={subindex} className={subitem.path === pathname ? styles.active : '' }>
                     <Link to={subitem.path}>{subitem.name}</Link>
                   </li>
                 )
