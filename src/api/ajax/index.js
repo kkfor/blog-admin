@@ -5,7 +5,7 @@ import Cookies from 'js-cookie'
 
 const instance = axios.create({
   baseURL: config.baseURL,
-  withCredentials: true
+  // withCredentials: true
 }) 
 
 instance.interceptors.request.use(function(req) {
