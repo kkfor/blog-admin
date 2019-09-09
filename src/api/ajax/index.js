@@ -4,8 +4,7 @@ import { notification } from 'antd'
 import Cookies from 'js-cookie'
 
 const instance = axios.create({
-  baseURL: config.baseURL,
-  // withCredentials: true
+  baseURL: config.baseURL
 }) 
 
 instance.interceptors.request.use(function(req) {
