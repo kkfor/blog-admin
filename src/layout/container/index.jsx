@@ -32,8 +32,8 @@ class Container extends Component {
         <aside className={styles.aside}>
           <ul>
             {menu.map((item, index) => (
-              <li key={index}>
-                <div className={item.path === pathname ? styles.active : ''}>
+              <li key={index} className={item.path === pathname ? styles.active : ''}>
+                <div>
                   <Link to={item.path}>{item.name}</Link>
                 </div>
                 {this.renderChildren(item)}

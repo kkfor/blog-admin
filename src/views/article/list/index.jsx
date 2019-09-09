@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import { Link } from 'react-router-dom'
 import { Table, Pagination, Button, Modal } from 'antd'
 import api from '@/api'
 import styles from './index.module.scss'
@@ -111,6 +112,7 @@ class ArticleList extends Component {
     ]
     return (
       <div className={styles.list}>
+        <h4>文章<Link to="/article/edit">写文章</Link></h4>
         <Table pagination={false} columns={columns} dataSource={dataSource} rowKey="_id" className={styles.table} />
         <Pagination total={this.state.total} className={styles.pagination} onChange={this.paginationChange} />
       </div>
