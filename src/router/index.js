@@ -15,6 +15,11 @@ const menu = [
     children: [
       {
         icon: '',
+        path: '/article/list',
+        name: '所有文章'
+      },
+      {
+        icon: '',
         path: '/article/edit',
         name: '撰写文章'
       },

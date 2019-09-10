@@ -1,6 +1,28 @@
 .list {
   background: #fff;
   padding: 20px;
+
+  .top {
+    h2 {
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+    a {
+      padding: 4px 8px;
+      color: #0073aa;
+      border: 1px solid #eee;
+
+      &:hover {
+        background: #00a0d2;
+        color: #fff;
+      }
+    }
+  }
+
+  .articleType {
+    margin: 10px 0;
+  }
 }
 .table {
   border: 1px solid #eee;

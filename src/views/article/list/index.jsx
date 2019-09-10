@@ -14,7 +14,6 @@ class ArticleList extends Component {
       total: null,
       page: 1
     }
-
   }
 
   componentDidMount() {
@@ -56,7 +55,7 @@ class ArticleList extends Component {
     })
   }
 
-  paginationChange = (page) => {
+  paginationChange = page => {
     this.setState({
       page
     })
@@ -75,10 +74,10 @@ class ArticleList extends Component {
         title: '状态',
         dataIndex: 'state',
         key: 'state',
-        render: (e) => {
-          if(e === 1)  {
+        render: e => {
+          if (e === 1) {
             return '发布'
-          } else if(e === 2) {
+          } else if (e === 2) {
             return '回收站'
           } else {
             return '草稿'
@@ -89,32 +88,51 @@ class ArticleList extends Component {
         title: '创建时间',
         dataIndex: 'createdAt',
         key: 'createdAt',
-        render: (e) => date(e) 
+        render: e => date(e)
       },
       {
         title: '更新时间',
         dataIndex: 'updatedAt',
         key: 'updatedAt',
-        render: (e) => date(e)
+        render: e => date(e)
       },
       {
         title: '操作',
         dataIndex: '_id',
         key: '_id',
-        render: (id) =>
-          (
-            <Fragment>
-              <Button onClick={this.edit.bind(this, id)}>编辑</Button>
-              <Button onClick={this.delete.bind(this, id)} type="danger">删除</Button>
-            </Fragment>
-          )
+        render: id => (
+          <Fragment>
+            <Button onClick={this.edit.bind(this, id)}>编辑</Button>
+            <Button onClick={this.delete.bind(this, id)} type="danger">
+              删除
+            </Button>
+          </Fragment>
+        )
       }
     ]
     return (
       <div className={styles.list}>
-        <h4>文章<Link to="/article/edit">写文章</Link></h4>
-        <Table pagination={false} columns={columns} dataSource={dataSource} rowKey="_id" className={styles.table} />
-        <Pagination total={this.state.total} className={styles.pagination} onChange={this.paginationChange} />
+        <div className={styles.top}>
+          <h2>文章</h2>
+          <Link to="/article/edit">写文章</Link>
+        </div>
+        <div className={styles.articleType}>
+          <span onClick={() => this.allHandler()}>全部文章</span> |{' '}
+          <span onClick={() => this.draftHandler()}>草稿箱</span> |{' '}
+          <span onClick={() => this.wasteHandler()}>回收站</span>
+        </div>
+        <Table
+          pagination={false}
+          columns={columns}
+          dataSource={dataSource}
+          rowKey="_id"
+          className={styles.table}
+        />
+        <Pagination
+          total={this.state.total}
+          className={styles.pagination}
+          onChange={this.paginationChange}
+        />
       </div>
     )
   }

@@ -15,17 +15,13 @@ class Container extends Component {
   }
 
   componentDidMount() {
-    const pathname = history.location.pathname
-    this.setState({
-      pathname
-    })
     const token = Cookies.get('token')
     if (!token) {
       history.push('/login')
     }
   }
   render() {
-    const { pathname } = this.state
+    const pathname = history.location.pathname
 
     return (
       <Fragment>
@@ -34,7 +30,7 @@ class Container extends Component {
             {menu.map((item, index) => (
               <li key={index} className={item.path === pathname ? styles.active : ''}>
                 <div>
-                  <Link to={item.path}>{item.name}</Link>
+                  <Link to={item.path} className={item.path === pathname ? styles.active : ''}>{item.name}</Link>
                 </div>
                 {this.renderChildren(item)}
               </li>
