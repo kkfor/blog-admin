@@ -22,6 +22,20 @@
 
   .articleType {
     margin: 10px 0;
+
+    > span {
+      user-select: none;
+      cursor: pointer;
+
+      &.active {
+        font-weight: 600;
+        color: #00a0d2;
+      }
+
+      &:hover {
+        color: #00a0d2;
+      }
+    }
   }
 }
 .table {

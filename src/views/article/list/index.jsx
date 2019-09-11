@@ -12,7 +12,9 @@ class ArticleList extends Component {
     this.state = {
       posts: [],
       total: null,
-      page: 1
+      page: 1,
+      limit: 20,
+      status: null // 0 草稿 | 1 发布 | 2 回收站
     }
   }
 
@@ -20,14 +22,18 @@ class ArticleList extends Component {
     this.getList()
   }
 
-  async getList(page = 1) {
+  async getList(page = 1, status = null) {
+    const { limit } = this.state
     try {
       const res = await api.article.getList({
-        page
+        page,
+        status,
+        limit: limit
       })
       this.setState({
         posts: res.data,
-        total: res.total
+        total: res.total,
+        status
       })
     } catch (err) {
       console.error(err)
@@ -63,7 +69,7 @@ class ArticleList extends Component {
   }
 
   render() {
-    let dataSource = this.state.posts
+    const { posts, limit, status } = this.state
     const columns = [
       {
         title: '标题',
@@ -110,6 +116,26 @@ class ArticleList extends Component {
         )
       }
     ]
+
+    const articleFilter = [
+      {
+        text: '全部文章',
+        status: null
+      },
+      {
+        text: '已发布',
+        status: 1
+      },
+      {
+        text: '草稿箱',
+        status: 0
+      },
+      {
+        text: '回收扎',
+        status: 2
+      }
+    ]
+
     return (
       <div className={styles.list}>
         <div className={styles.top}>
@@ -117,18 +143,27 @@ class ArticleList extends Component {
           <Link to="/article/edit">写文章</Link>
         </div>
         <div className={styles.articleType}>
-          <span onClick={() => this.allHandler()}>全部文章</span> |{' '}
-          <span onClick={() => this.draftHandler()}>草稿箱</span> |{' '}
-          <span onClick={() => this.wasteHandler()}>回收站</span>
+          {articleFilter.map((item, index) => (
+            <React.Fragment key={index}>
+              <span
+                onClick={() => this.getList(1, item.status)}
+                className={status === item.status ? styles.active : ''}
+              >
+                {item.text}
+              </span>
+              {index !== articleFilter.length - 1 && ' | '}
+            </React.Fragment>
+          ))}
         </div>
         <Table
           pagination={false}
           columns={columns}
-          dataSource={dataSource}
+          dataSource={posts}
           rowKey="_id"
           className={styles.table}
         />
         <Pagination
+          defaultPageSize={limit}
           total={this.state.total}
           className={styles.pagination}
           onChange={this.paginationChange}
