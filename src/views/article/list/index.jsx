@@ -13,7 +13,7 @@ class ArticleList extends Component {
       posts: [],
       total: null,
       page: 1,
-      limit: 20,
+      limit: 15,
       status: null // 0 草稿 | 1 发布 | 2 回收站
     }
   }
@@ -94,22 +94,23 @@ class ArticleList extends Component {
         title: '创建时间',
         dataIndex: 'createdAt',
         key: 'createdAt',
-        render: e => date(e)
+        render: e => date(e, 'yyyy/MM/dd HH:mm:ss')
       },
       {
         title: '更新时间',
         dataIndex: 'updatedAt',
         key: 'updatedAt',
-        render: e => date(e)
+        render: e => date(e, 'yyyy/MM/dd HH:mm:ss')
       },
       {
         title: '操作',
         dataIndex: '_id',
         key: '_id',
+        width: '150px',
         render: id => (
           <Fragment>
-            <Button onClick={this.edit.bind(this, id)}>编辑</Button>
-            <Button onClick={this.delete.bind(this, id)} type="danger">
+            <Button onClick={() => this.edit(id)}>编辑</Button>{' '}
+            <Button onClick={() => this.delete(id)} type="danger">
               删除
             </Button>
           </Fragment>
@@ -131,7 +132,7 @@ class ArticleList extends Component {
         status: 0
       },
       {
-        text: '回收扎',
+        text: '回收站',
         status: 2
       }
     ]
@@ -156,11 +157,19 @@ class ArticleList extends Component {
           ))}
         </div>
         <Table
+          bordered
+          size="middle"
           pagination={false}
           columns={columns}
           dataSource={posts}
           rowKey="_id"
-          className={styles.table}
+          onRow={record => {
+            return {
+              onClick: e => {
+                history.push(`/article/edit/${record._id}`)
+              }
+            };
+          }}
         />
         <Pagination
           defaultPageSize={limit}

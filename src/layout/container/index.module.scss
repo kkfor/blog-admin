@@ -1,8 +1,13 @@
-.aside {
-  font-size: 14px;
+.container {
+  display: flex;
   position: absolute;
   top: 45px;
+  left: 0;
+  right: 0;
   bottom: 0;
+}
+
+.aside {
   width: 180px;
   background: #23282d;
   color: #fff;
@@ -24,10 +29,6 @@
     }
 
     li {
-      // &.active {
-      //   background: #32373c;
-      // }
-
       ul > li {
         padding-left: 30px;
         a {
@@ -41,12 +42,7 @@
   }
 }
 .main {
-  position: absolute;
-  top: 45px;
-  right: 0;
-  bottom: 0;
-  left: 180px;
   overflow-y: auto;
-  padding: 12px;
   background: #eee;
+  flex: 1;
 }

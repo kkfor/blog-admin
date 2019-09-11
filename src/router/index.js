@@ -52,13 +52,13 @@ const route = [
     components: articleList
   },
   {
-    path: '/article/edit',
-    name: '撰写文章',
+    path: '/article/edit/:id',
+    name: '修改文章',
     components: articleEdit
   },
   {
-    path: '/article/edit/:id',
-    name: '修改文章',
+    path: '/article/edit',
+    name: '撰写文章',
     components: articleEdit
   },
 
@@ -70,16 +70,16 @@ const route = [
   },
   {
     icon: '',
-    path: '/category/list',
-    name: '所有分类',
-    components: categoryList
-  },
-  {
-    icon: '',
     path: '/category/edit/:id',
     name: '修改分类',
     hide: true,
     components: categoryEdit
+  },
+  {
+    icon: '',
+    path: '/category/list',
+    name: '所有分类',
+    components: categoryList
   },
   {
     icon: '',
@@ -96,16 +96,16 @@ const route = [
   },
   {
     icon: '',
-    path: '/tag/list',
-    name: '所有标签',
-    components: tagList
-  },
-  {
-    icon: '',
     path: '/tag/edit/:id',
     name: '修改标签',
     hide: true,
     components: tagEdit
+  },
+  {
+    icon: '',
+    path: '/tag/list',
+    name: '所有标签',
+    components: tagList
   },
   {
     icon: '',

@@ -155,13 +155,13 @@ class ArticleEdit extends Component {
           <div className={styles.title}>
             <Input placeholder="标题" value={title} onChange={this.handleTitleChange} />
           </div>
-          <Upload
+          {/* <Upload
             customRequest={this.customRequest.bind(this)}
             showUploadList={false}
           >
             <Button>上传图片</Button>
-          </Upload>
-          <div className={styles.imageList}>
+          </Upload> */}
+          {/* <div className={styles.imageList}>
             {
               uploadList.map((item, index) => (
                 <div className={styles.imageItem} key={index}>
@@ -170,7 +170,7 @@ class ArticleEdit extends Component {
                 </div>
               ))
             }
-          </div>
+          </div> */}
           <div className={styles.editor}>
             <Editor value={content} onChange={this.handleEditorChange} />
           </div>

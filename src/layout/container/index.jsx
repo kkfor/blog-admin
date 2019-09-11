@@ -24,7 +24,7 @@ class Container extends Component {
     const pathname = history.location.pathname
 
     return (
-      <Fragment>
+      <div className={styles.container}>
         <aside className={styles.aside}>
           <ul>
             {menu.map((item, index) => (
@@ -44,7 +44,7 @@ class Container extends Component {
             ))}
           </Switch>
         </main>
-      </Fragment>
+      </div>
     )
   }
 
