@@ -15,30 +15,55 @@
 
   a {
     color: #fff;
+    display: block;
   }
 
-  ul {
+  > ul {
     line-height: 36px;
 
-    li {
-      &.active {
-        div {
-          background: #0073aa;
+    > li {
+      > div {
+        a {
+          padding-left: 12px;
+
+          &:hover {
+            color: #00a0d2;
+          }
+
+          &.active {
+            background: #0073aa;
+          }
+        }
+      }
+
+      > ul > li {
+        a {
+          padding-left: 24px;
+
+          &:hover {
+            color: #00a0d2;
+          }
+
+          &.active {
+            color: #00a0d2;
+            font-weight: 600;
+          }
         }
       }
     }
 
-    li {
-      ul > li {
-        padding-left: 30px;
-        a {
-          display: block;
-        }
-      }
-      > div {
-        padding-left: 14px;
-      }
-    }
+    // li {
+    //   ul > li {
+    //     padding-left: 30px;
+
+    //     a {
+    //       display: block;
+    //     }
+    //   }
+    //   > div {
+    //     padding-left: 14px;
+    //   }
+    // }
   }
 }
 .main {
