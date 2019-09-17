@@ -2,8 +2,11 @@ import React, { Component } from 'react'
 import styles from './index.module.scss'
 import { Route, Link, Switch } from 'react-router-dom'
 import { route, menu } from '../../router'
+import { Menu } from 'antd'
 import Cookies from 'js-cookie'
 import history from '@/config/history'
+
+const { SubMenu } = Menu
 
 class Container extends Component {
   constructor(props) {
@@ -26,26 +29,39 @@ class Container extends Component {
     return (
       <div className={styles.container}>
         <aside className={styles.aside}>
-          <ul>
+          <Menu
+            defaultSelectedKeys={[]}
+            defaultOpenKeys={['sub1']}
+            mode="inline"
+            theme="dark"
+            inlineCollapsed={this.state.collapsed}
+          >
             {menu.map((item, index) => (
-              <li
+              item.children && item.children.length ? 
+              <SubMenu
                 key={index}
-                className={item.path === pathname ? styles.active : ''}
+                title={
+                  <span>
+                    <span>{item.name}</span>
+                  </span>
+                }
               >
-                <div>
-                  <Link
-                    to={item.path}
-                    className={item.path === pathname ? styles.active : ''}
-                  >
-                    {item.name}
-                  </Link>
-                </div>
-                {this.renderChildren(item)}
-              </li>
+                {item.children &&
+                  item.children.map((subitem, subindex) => (
+                    <Menu.Item key={`sub${subindex}`}>
+                      <Link to={subitem.path}>{subitem.name}</Link>
+                    </Menu.Item>
+                  ))}
+              </SubMenu> :
+              <Menu.Item key={index}>
+                <Link to={item.path}>{item.name}</Link>
+              </Menu.Item>
             ))}
-          </ul>
+          </Menu>
         </aside>
+        <header className={styles.header}>1234</header>
         <main className={styles.main}>
+          
           <Switch>
             {route.map((item, index) => (
               <Route key={index} path={item.path} component={item.components} />
@@ -54,27 +70,6 @@ class Container extends Component {
         </main>
       </div>
     )
-  }
-
-  renderChildren(item) {
-    const pathname = history.location.pathname
-
-    if (item.children && item.children.length) {
-      return (
-        <ul>
-          {item.children.map((subitem, subindex) => (
-            <li key={subindex}>
-              <Link
-                className={subitem.path === pathname ? styles.active : ''}
-                to={subitem.path}
-              >
-                {subitem.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )
-    }
   }
 }
 
