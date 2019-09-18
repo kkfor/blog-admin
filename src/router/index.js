@@ -10,7 +10,7 @@ import commentList from '@/views/comment/list'
 const menu = [
   {
     icon: '',
-    path: '/article/list',
+    path: '/article',
     name: '文章',
     children: [
       {

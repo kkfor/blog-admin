@@ -1,15 +1,17 @@
-import React, { Component, Fragment } from 'react';
-import Header from './header'
-import Container from './container'
+import React, { Component } from 'react'
+import Aside from './aside'
+import Main from './main'
+import styles from './App.module.scss'
 
 class App extends Component {
   render() {
     return (
-      <Fragment>
-        <Container></Container>
-      </Fragment>
-    );
+      <div className={styles.container}>
+        <Aside />
+        <Main/>
+      </div>
+    )
   }
 }
 
-export default App;
+export default App
