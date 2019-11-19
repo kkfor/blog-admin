@@ -178,7 +178,7 @@ class ArticleEdit extends Component {
         <div className={styles.articleSide}>
           <div className={styles.submit}>
             <Button type="primary" onClick={this.submit.bind(this, 1)} className={styles.publish}>发布</Button>
-            <Button onClick={this.submit.bind(this, 0)}>草稿</Button>
+            <Button onClick={this.submit.bind(this, 2)}>草稿</Button>
           </div>
           <div className={styles.sideBlock}>
             <h4>分类</h4>

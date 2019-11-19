@@ -22,8 +22,6 @@ class Main extends Component {
     }
   }
   render() {
-    const pathname = history.location.pathname
-
     return (
       <section className={styles.layout}>
         <header className={styles.header}>1234</header>

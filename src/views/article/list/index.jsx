@@ -83,7 +83,7 @@ class ArticleList extends Component {
         render: e => {
           if (e === 1) {
             return '发布'
-          } else if (e === 2) {
+          } else if (e === 0) {
             return '回收站'
           } else {
             return '草稿'
@@ -129,11 +129,11 @@ class ArticleList extends Component {
       },
       {
         text: '草稿箱',
-        status: 0
+        status: 2
       },
       {
         text: '回收站',
-        status: 2
+        status: 0
       }
     ]
 
