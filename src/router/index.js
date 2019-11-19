@@ -1,7 +1,7 @@
 import articleList from '@/views/article/list'
 import articleEdit from '@/views/article/edit'
 import category from '@/views/category'
-import tag from '@/views/tag/list'
+import tag from '@/views/tag'
 import commentList from '@/views/comment/list'
 
 // 菜单

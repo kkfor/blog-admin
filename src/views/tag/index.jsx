@@ -5,7 +5,7 @@ import styles from './index.module.scss'
 
 const FormItem = Form.Item
 
-class Category extends Component {
+class Tag extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -13,7 +13,7 @@ class Category extends Component {
       name: null,
       slug: null,
       url: null,
-      category: [],
+      tag: [],
       editStatus: false, // false: 新增状态 | true: 编辑状态
       table: {
         pagination: false
@@ -27,9 +27,9 @@ class Category extends Component {
 
   async init() {
     try {
-      const res = await api.category.getCategories()
+      const res = await api.tag.getTags()
       this.setState({
-        category: res
+        tag: res
       })
     } catch (err) {
       console.error(err)
@@ -38,7 +38,7 @@ class Category extends Component {
 
   async edit(id) {
     try {
-      const res = await api.category.getCategory(id)
+      const res = await api.tag.getTag(id)
       this.setState(
         {
           editStatus: true,
@@ -56,19 +56,25 @@ class Category extends Component {
     }
   }
 
-  addCategory() {
+  resetForm() {
     this.setState(
       {
         id: null,
         name: null,
         slug: null,
-        url: null,
-        editStatus: false
+        url: null
       },
       () => {
         this.props.form.resetFields()
       }
     )
+  }
+
+  addTag() {
+    this.resetFields()
+    this.setState({
+      editStatus: false
+    })
   }
 
   delete(id) {
@@ -80,7 +86,7 @@ class Category extends Component {
       okType: 'danger',
       cancelText: '取消',
       async onOk() {
-        await api.category.delCategory(id)
+        await api.tag.delTag(id)
         that.init()
       }
     })
@@ -93,10 +99,11 @@ class Category extends Component {
       if (!err) {
         try {
           if (id) {
-            await api.category.putCategory(id, values)
+            await api.tag.putTag(id, values)
           } else {
-            await api.category.postCategory(values)
+            await api.tag.postTag(values)
           }
+          this.resetForm()
           this.init()
         } catch (err) {
           console.error(err)
@@ -109,7 +116,7 @@ class Category extends Component {
     const { getFieldDecorator } = this.props.form
     const { name, slug, url, editStatus } = this.state
 
-    let dataSource = this.state.category
+    let dataSource = this.state.tag
 
     const columns = [
       {
@@ -145,9 +152,7 @@ class Category extends Component {
       <div className={styles.main}>
         <div className={styles.top}>
           <h2>分类</h2>
-          {editStatus && (
-            <span onClick={() => this.addCategory()}>新增分类</span>
-          )}
+          {editStatus && <span onClick={() => this.addTag()}>新增分类</span>}
         </div>
         <div className={styles.list}>
           <div className={styles.edit}>
@@ -155,25 +160,25 @@ class Category extends Component {
               <FormItem>
                 {getFieldDecorator('name', {
                   initialValue: name
-                })(<Input placeholder="输入分类名"></Input>)}
+                })(<Input placeholder="输入标签名"></Input>)}
               </FormItem>
               <FormItem>
                 {getFieldDecorator('slug', {
                   initialValue: slug
-                })(<Input placeholder="输入分类别名"></Input>)}
+                })(<Input placeholder="输入标签别名"></Input>)}
               </FormItem>
               <FormItem>
                 {getFieldDecorator('url', {
                   initialValue: url
-                })(<Input placeholder="输入分类url"></Input>)}
+                })(<Input placeholder="输入标签url"></Input>)}
               </FormItem>
               {editStatus ? (
                 <Button htmlType="submit" type="primary">
-                  修改分类
+                  修改标签
                 </Button>
               ) : (
                 <Button htmlType="submit" type="primary">
-                  新增分类
+                  新增标签
                 </Button>
               )}
             </Form>
@@ -191,4 +196,4 @@ class Category extends Component {
   }
 }
 
-export default Form.create()(Category)
+export default Form.create()(Tag)

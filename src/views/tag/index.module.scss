@@ -1,0 +1,39 @@
+.main {
+  background: #fff;
+  padding: 16px;
+
+  .top {
+    h2 {
+      display: inline-block;
+      margin-right: 6px;
+      margin-bottom: 12px;
+    }
+
+    span {
+      cursor: pointer;
+      padding: 4px 8px;
+      color: #00a0d2;
+      border: 1px solid #eee;
+
+      &:hover {
+        background: #00a0d2;
+        color: #fff;
+      }
+    }
+  }
+
+  .list {
+    display: flex;
+    .edit {
+      width: 320px;
+    }
+  }
+
+  .table {
+    flex: 1;
+    height: 100%;
+    margin-left: 50px;
+    border: 1px solid #eee;
+    border-bottom: 0;
+  }
+}

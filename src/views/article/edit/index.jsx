@@ -190,6 +190,16 @@ class ArticleEdit extends Component {
               </Checkbox.Group>
             </ul>
           </div>
+          {/* <div className={styles.sideBlock}>
+            <h4>标签</h4>
+            <ul>
+              <Checkbox.Group onChange={this.handleCategoryChange} value={category}>
+                {
+                  categories.map((item, index) => <li key={index}><Checkbox value={item._id}>{item.slug}</Checkbox></li>)
+                }
+              </Checkbox.Group>
+            </ul>
+          </div> */}
         </div>
       </div>
     )
