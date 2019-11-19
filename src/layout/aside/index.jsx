@@ -13,11 +13,11 @@ class Container extends Component {
     super(props)
 
     const pathname = history.location.pathname
-    const openKey = menu.filter(item => pathname.includes(item.path))
+    // const openKey = menu.filter(item => pathname.includes(item.path))
 
     this.state = {
       pathname: '',
-      openKeys: [openKey[0].path],
+      // openKeys: [openKey[0].path],
       selectedKeys: [pathname]
     }
   }

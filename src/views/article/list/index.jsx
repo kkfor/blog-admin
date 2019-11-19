@@ -78,8 +78,8 @@ class ArticleList extends Component {
       },
       {
         title: '状态',
-        dataIndex: 'state',
-        key: 'state',
+        dataIndex: 'status',
+        key: 'status',
         render: e => {
           if (e === 1) {
             return '发布'

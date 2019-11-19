@@ -73,8 +73,8 @@ class CommentList extends Component {
       },
       {
         title: '状态',
-        dataIndex: 'state',
-        key: 'state'
+        dataIndex: 'status',
+        key: 'status'
       },
       {
         title: '评论者',

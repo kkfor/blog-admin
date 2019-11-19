@@ -131,13 +131,13 @@ class ArticleEdit extends Component {
   }
 
   // 文章提交
-  submit = async state => {
+  submit = async status => {
     const { title, id, category, content } = this.state
     try {
       if (id) {
-        await api.article.putItem(id, { title, content, state, category })
+        await api.article.putItem(id, { title, content, status, category })
       } else {
-        const res = await api.article.postItem({ title, content, state, category })
+        const res = await api.article.postItem({ title, content, status, category })
         this.setState({
           id: res._id
         })
