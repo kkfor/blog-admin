@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Table, Pagination, Button, Modal } from 'antd'
 import api from '@/api'
-import styles from './index.scss'
+import styles from './index.module.scss'
 import history from '@/config/history'
 import { date } from '@/utils'
 
@@ -39,9 +39,7 @@ class CommentList extends Component {
     this.getList(page)
   }
 
-  reply(id) {
-    
-  }
+  reply(id) {}
 
   delete(id) {
     let that = this
@@ -69,7 +67,7 @@ class CommentList extends Component {
       {
         title: '评论内容',
         dataIndex: 'content',
-        key: 'content',
+        key: 'content'
       },
       {
         title: '状态',
@@ -96,25 +94,41 @@ class CommentList extends Component {
         title: '评论时间',
         dataIndex: 'createdAt',
         key: 'createdAt',
-        render: (e) => date(e)
+        render: e => date(e)
       },
       {
         title: '操作',
         dataIndex: '_id',
         key: '_id',
-        render: (id) =>
-          (
-            <Fragment>
-              <Button onClick={this.reply.bind(this, id)} type="primary">回复</Button>
-              <Button onClick={this.delete.bind(this, id)} type="danger">删除</Button>
-            </Fragment>
-          )
+        render: id => (
+          <Fragment>
+            <Button onClick={this.reply.bind(this, id)} type="primary">
+              回复
+            </Button>{' '}
+            <Button onClick={this.delete.bind(this, id)} type="danger">
+              删除
+            </Button>
+          </Fragment>
+        )
       }
     ]
     return (
-      <div className={styles.list}>
-        <Table pagination={false} columns={columns} dataSource={list} rowKey="_id" className={styles.table} />
-        <Pagination total={this.state.total} className={styles.pagination} onChange={this.paginationChange} />
+      <div className={styles.comment}>
+        <div className={styles.top}>
+          <h2>评论</h2>
+        </div>
+        <Table
+          pagination={false}
+          columns={columns}
+          dataSource={list}
+          rowKey="_id"
+          className={styles.table}
+        />
+        <Pagination
+          total={this.state.total}
+          className={styles.pagination}
+          onChange={this.paginationChange}
+        />
       </div>
     )
   }

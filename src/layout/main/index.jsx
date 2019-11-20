@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 import { route } from '../../router'
 import Cookies from 'js-cookie'
 import history from '@/config/history'
+import Header from '../header'
 
 
 class Main extends Component {
@@ -24,7 +25,7 @@ class Main extends Component {
   render() {
     return (
       <section className={styles.layout}>
-        <header className={styles.header}>1234</header>
+        <Header />
         <main className={styles.main}>
           <Switch>
             {route.map((item, index) => (

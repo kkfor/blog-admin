@@ -1,10 +1,17 @@
-.header {
-  height: 45px;
-  line-height: 45px;
-  background: #23282d;
-  color: #fff;
+header {
+  position: relative;
+  height: 32px;
+  line-height: 32px;
+  background: #fff;
+  box-shadow: 0 0 4px 1px rgba(#000, 0.2);
 }
 .userName {
+  position: relative;
   float: right;
   padding-right: 20px;
+
+  .exit {
+    cursor: pointer;
+    color: #e61e1e;
+  }
 }
