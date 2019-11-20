@@ -71,7 +71,7 @@ class Tag extends Component {
   }
 
   addTag() {
-    this.resetFields()
+    this.resetForm()
     this.setState({
       editStatus: false
     })
@@ -151,8 +151,8 @@ class Tag extends Component {
     return (
       <div className={styles.main}>
         <div className={styles.top}>
-          <h2>分类</h2>
-          {editStatus && <span onClick={() => this.addTag()}>新增分类</span>}
+          <h2>标签</h2>
+          {editStatus && <span onClick={() => this.addTag()}>新增标签</span>}
         </div>
         <div className={styles.list}>
           <div className={styles.edit}>
