@@ -18,6 +18,8 @@ class ArticleEdit extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      save: false,
+      status: 2, // 1: 发布 | 2: 草稿
       id: null,
       title: null,
       content: '',
@@ -78,17 +80,18 @@ class ArticleEdit extends Component {
 
   handleTitleChange = e => {
     const title = e.target.value
-    this.setState({ title })
+    this.setState({ title, save: false })
   }
 
   handleCategoryChange = e => {
     this.setState({
-      category: e
+      category: e,
+      save: false
     })
   }
 
   handleEditorChange = content => {
-    this.setState({ content })
+    this.setState({ content, save: false })
   }
 
   // 自定义上传
@@ -130,6 +133,19 @@ class ArticleEdit extends Component {
     })
   }
 
+  // 修改文章状态
+  changeStatus() {
+    let { status } = this.state
+    if (status === 1) {
+      status = 2
+    } else {
+      status = 1
+    }
+    this.setState({
+      status
+    })
+  }
+
   // 文章提交
   submit = async status => {
     const { title, id, category, content } = this.state
@@ -145,7 +161,9 @@ class ArticleEdit extends Component {
         })
         window.history.pushState({}, '', '/article/edit/' + res._id)
         this.setState({
-          id: res._id
+          status,
+          id: res._id,
+          save: true
         })
       }
     } catch (err) {
@@ -154,7 +172,16 @@ class ArticleEdit extends Component {
   }
 
   render() {
-    const { content, title, categories, category, uploadList } = this.state
+    const {
+      save,
+      id,
+      content,
+      title,
+      categories,
+      category,
+      status,
+      uploadList
+    } = this.state
     return (
       <div className={styles.article}>
         <div className={styles.content}>
@@ -182,19 +209,35 @@ class ArticleEdit extends Component {
             }
           </div> */}
           <div className={styles.editor}>
-            <Editor value={content} onChange={this.handleEditorChange} />
+            <Editor
+              value={content}
+              onChange={this.handleEditorChange}
+              onSave={() => this.submit(status)}
+            />
           </div>
         </div>
         <div className={styles.articleSide}>
           <div className={styles.submit}>
+            {save && <Button type="link" disabled>
+                已保存
+              </Button> }
+            {(!id || status === 2) && (
+              <Button type="link" onClick={this.submit.bind(this, 2)}>
+                保存草稿
+              </Button>
+            )}
+            {status === 1 && (
+              <Button type="link" onClick={() => this.changeStatus()}>
+                切换为草稿
+              </Button>
+            )}
             <Button
               type="primary"
               onClick={this.submit.bind(this, 1)}
               className={styles.publish}
             >
-              发布
+              {status === 1 ? '更新' : '发布'}
             </Button>
-            <Button onClick={this.submit.bind(this, 2)}>草稿</Button>
           </div>
           <div className={styles.sideBlock}>
             <h4>分类</h4>
