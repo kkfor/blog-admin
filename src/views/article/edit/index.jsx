@@ -18,7 +18,7 @@ class ArticleEdit extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      save: false,
+      save: false, // true: 可以保存 | false: 不可以保存
       status: 2, // 1: 发布 | 2: 草稿
       id: null,
       title: null,
@@ -51,12 +51,13 @@ class ArticleEdit extends Component {
   // 初始化文章
   async initItem(id) {
     try {
-      const arts = await api.article.getItem(id)
+      const art = await api.article.getItem(id)
       this.setState({
         id,
-        title: arts.title,
-        content: arts.content,
-        category: arts.category
+        status: art.status,
+        title: art.title,
+        content: art.content,
+        category: art.category
       })
     } catch (err) {
       console.error(err)
@@ -80,18 +81,18 @@ class ArticleEdit extends Component {
 
   handleTitleChange = e => {
     const title = e.target.value
-    this.setState({ title, save: false })
+    this.setState({ title, save: true })
   }
 
   handleCategoryChange = e => {
     this.setState({
       category: e,
-      save: false
+      save: true
     })
   }
 
   handleEditorChange = content => {
-    this.setState({ content, save: false })
+    this.setState({ content, save: true })
   }
 
   // 自定义上传
@@ -133,19 +134,6 @@ class ArticleEdit extends Component {
     })
   }
 
-  // 修改文章状态
-  changeStatus() {
-    let { status } = this.state
-    if (status === 1) {
-      status = 2
-    } else {
-      status = 1
-    }
-    this.setState({
-      status
-    })
-  }
-
   // 文章提交
   submit = async status => {
     const { title, id, category, content } = this.state
@@ -161,11 +149,13 @@ class ArticleEdit extends Component {
         })
         window.history.pushState({}, '', '/article/edit/' + res._id)
         this.setState({
-          status,
-          id: res._id,
-          save: true
+          id: res._id
         })
       }
+      this.setState({
+        status,
+        save: false
+      })
     } catch (err) {
       console.error(err)
     }
@@ -218,21 +208,28 @@ class ArticleEdit extends Component {
         </div>
         <div className={styles.articleSide}>
           <div className={styles.submit}>
-            {save && <Button type="link" disabled>
+            {!save && status === 2 && (
+              <Button type="link" disabled>
                 已保存
-              </Button> }
+              </Button>
+            )}
             {(!id || status === 2) && (
-              <Button type="link" onClick={this.submit.bind(this, 2)}>
+              <Button
+                type="link"
+                disabled={!save}
+                onClick={() => this.submit(2)}
+              >
                 保存草稿
               </Button>
             )}
             {status === 1 && (
-              <Button type="link" onClick={() => this.changeStatus()}>
+              <Button type="link" onClick={() => this.submit(2)}>
                 切换为草稿
               </Button>
             )}
             <Button
               type="primary"
+              disabled={!save && status === 1}
               onClick={this.submit.bind(this, 1)}
               className={styles.publish}
             >
