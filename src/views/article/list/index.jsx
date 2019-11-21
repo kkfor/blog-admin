@@ -40,12 +40,14 @@ class ArticleList extends Component {
     }
   }
 
-  edit(id) {
+  edit(e, id) {
+    e.stopPropagation()
     const url = '/article/edit/' + id
     history.push(url)
   }
 
-  delete(id) {
+  delete(e, id) {
+    e.stopPropagation()
     const { page } = this.state
     let that = this
     Modal.confirm({
@@ -69,7 +71,7 @@ class ArticleList extends Component {
   }
 
   render() {
-    const { posts, limit, status } = this.state
+    const { posts, limit, status, total } = this.state
     const columns = [
       {
         title: '标题',
@@ -109,8 +111,8 @@ class ArticleList extends Component {
         width: '150px',
         render: id => (
           <Fragment>
-            <Button onClick={() => this.edit(id)}>编辑</Button>{' '}
-            <Button onClick={() => this.delete(id)} type="danger">
+            <Button onClick={e => this.edit(e, id)}>编辑</Button>{' '}
+            <Button onClick={e => this.delete(e, id)} type="danger">
               删除
             </Button>
           </Fragment>
@@ -151,6 +153,7 @@ class ArticleList extends Component {
                 className={status === item.status ? styles.active : ''}
               >
                 {item.text}
+                {status === item.status && <span>({total})</span>}
               </span>
               {index !== articleFilter.length - 1 && ' | '}
             </React.Fragment>
@@ -168,7 +171,7 @@ class ArticleList extends Component {
               onClick: e => {
                 history.push(`/article/edit/${record._id}`)
               }
-            };
+            }
           }}
         />
         <Pagination

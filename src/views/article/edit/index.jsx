@@ -63,7 +63,7 @@ class ArticleEdit extends Component {
 
   // 初始化图片
   async initImage(id) {
-    const res = await api.image.getList({article: id})
+    const res = await api.image.getList({ article: id })
     this.setState({
       uploadList: res.result
     })
@@ -76,18 +76,18 @@ class ArticleEdit extends Component {
     })
   }
 
-  handleTitleChange = (e) => {
+  handleTitleChange = e => {
     const title = e.target.value
     this.setState({ title })
   }
 
-  handleCategoryChange = (e) => {
+  handleCategoryChange = e => {
     this.setState({
       category: e
     })
   }
 
-  handleEditorChange = (content) => {
+  handleEditorChange = content => {
     this.setState({ content })
   }
 
@@ -137,7 +137,13 @@ class ArticleEdit extends Component {
       if (id) {
         await api.article.putItem(id, { title, content, status, category })
       } else {
-        const res = await api.article.postItem({ title, content, status, category })
+        const res = await api.article.postItem({
+          title,
+          content,
+          status,
+          category
+        })
+        window.history.pushState({}, '', '/article/edit/' + res._id)
         this.setState({
           id: res._id
         })
@@ -153,7 +159,11 @@ class ArticleEdit extends Component {
       <div className={styles.article}>
         <div className={styles.content}>
           <div className={styles.title}>
-            <Input placeholder="标题" value={title} onChange={this.handleTitleChange} />
+            <Input
+              placeholder="标题"
+              value={title}
+              onChange={this.handleTitleChange}
+            />
           </div>
           {/* <Upload
             customRequest={this.customRequest.bind(this)}
@@ -177,16 +187,27 @@ class ArticleEdit extends Component {
         </div>
         <div className={styles.articleSide}>
           <div className={styles.submit}>
-            <Button type="primary" onClick={this.submit.bind(this, 1)} className={styles.publish}>发布</Button>
+            <Button
+              type="primary"
+              onClick={this.submit.bind(this, 1)}
+              className={styles.publish}
+            >
+              发布
+            </Button>
             <Button onClick={this.submit.bind(this, 2)}>草稿</Button>
           </div>
           <div className={styles.sideBlock}>
             <h4>分类</h4>
             <ul>
-              <Checkbox.Group onChange={this.handleCategoryChange} value={category}>
-                {
-                  categories.map((item, index) => <li key={index}><Checkbox value={item._id}>{item.slug}</Checkbox></li>)
-                }
+              <Checkbox.Group
+                onChange={this.handleCategoryChange}
+                value={category}
+              >
+                {categories.map((item, index) => (
+                  <li key={index}>
+                    <Checkbox value={item._id}>{item.slug}</Checkbox>
+                  </li>
+                ))}
               </Checkbox.Group>
             </ul>
           </div>

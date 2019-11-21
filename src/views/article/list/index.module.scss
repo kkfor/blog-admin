@@ -30,6 +30,9 @@
       &.active {
         font-weight: 600;
         color: #00a0d2;
+        span {
+          font-weight: 400;
+        }
       }
 
       &:hover {
