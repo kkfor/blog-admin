@@ -18,7 +18,7 @@ class ArticleEdit extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      save: false, // true: 可以保存 | false: 不可以保存
+      save: 0, // 0: 第一次进入 | 1: 可以保存 | 2: 已保存
       status: 2, // 1: 发布 | 2: 草稿
       id: null,
       title: null,
@@ -81,18 +81,18 @@ class ArticleEdit extends Component {
 
   handleTitleChange = e => {
     const title = e.target.value
-    this.setState({ title, save: true })
+    this.setState({ title, save: 1 })
   }
 
   handleCategoryChange = e => {
     this.setState({
       category: e,
-      save: true
+      save: 1
     })
   }
 
   handleEditorChange = content => {
-    this.setState({ content, save: true })
+    this.setState({ content, save: 1 })
   }
 
   // 自定义上传
@@ -154,17 +154,50 @@ class ArticleEdit extends Component {
       }
       this.setState({
         status,
-        save: false
+        save: 2
       })
     } catch (err) {
       console.error(err)
     }
   }
 
+  submitRender() {
+    const { save, id, status } = this.state
+    return (
+      <div className={styles.submit}>
+        {save === 2 && status === 2 && (
+          <Button type="link" disabled>
+            已保存
+          </Button>
+        )}
+        {(!id || status === 2) && (
+          <Button
+            type="link"
+            disabled={save !== 1}
+            onClick={() => this.submit(2)}
+          >
+            保存草稿
+          </Button>
+        )}
+        {status === 1 && (
+          <Button type="link" onClick={() => this.submit(2)}>
+            切换为草稿
+          </Button>
+        )}
+        <Button
+          type="primary"
+          disabled={save !==1 && status === 1}
+          onClick={this.submit.bind(this, 1)}
+          className={styles.publish}
+        >
+          {status === 1 ? '更新' : '发布'}
+        </Button>
+      </div>
+    )
+  }
+
   render() {
     const {
-      save,
-      id,
       content,
       title,
       categories,
@@ -207,35 +240,7 @@ class ArticleEdit extends Component {
           </div>
         </div>
         <div className={styles.articleSide}>
-          <div className={styles.submit}>
-            {!save && status === 2 && (
-              <Button type="link" disabled>
-                已保存
-              </Button>
-            )}
-            {(!id || status === 2) && (
-              <Button
-                type="link"
-                disabled={!save}
-                onClick={() => this.submit(2)}
-              >
-                保存草稿
-              </Button>
-            )}
-            {status === 1 && (
-              <Button type="link" onClick={() => this.submit(2)}>
-                切换为草稿
-              </Button>
-            )}
-            <Button
-              type="primary"
-              disabled={!save && status === 1}
-              onClick={this.submit.bind(this, 1)}
-              className={styles.publish}
-            >
-              {status === 1 ? '更新' : '发布'}
-            </Button>
-          </div>
+          {this.submitRender()}
           <div className={styles.sideBlock}>
             <h4>分类</h4>
             <ul>

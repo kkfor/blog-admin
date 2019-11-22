@@ -76,32 +76,28 @@ class ArticleList extends Component {
       {
         title: '标题',
         dataIndex: 'title',
-        key: 'title'
-      },
-      {
-        title: '状态',
-        dataIndex: 'status',
-        key: 'status',
-        render: e => {
-          if (e === 1) {
-            return '发布'
-          } else if (e === 0) {
-            return '回收站'
-          } else {
-            return '草稿'
+        render: (e, r) => {
+          let title = <><b>{e}</b> — 草稿</>
+          if (r.status === 1) {
+            title = <b>{e}</b>
+          } else if (r.status === 0) {
+            title = <><b>{e}</b> — 回收站</>
           }
+          return <span className={styles.title}>{title}</span>
         }
       },
       {
         title: '创建时间',
         dataIndex: 'createdAt',
         key: 'createdAt',
+        width: '200px',
         render: e => date(e, 'yyyy/MM/dd HH:mm:ss')
       },
       {
         title: '更新时间',
         dataIndex: 'updatedAt',
         key: 'updatedAt',
+        width: '200px',
         render: e => date(e, 'yyyy/MM/dd HH:mm:ss')
       },
       {
@@ -162,6 +158,7 @@ class ArticleList extends Component {
         <Table
           bordered
           size="middle"
+          className={styles.table}
           pagination={false}
           columns={columns}
           dataSource={posts}
