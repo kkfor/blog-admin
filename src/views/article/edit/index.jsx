@@ -48,6 +48,10 @@ class ArticleEdit extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.timer && clearInterval(this.timer)
+  }
+
   // 初始化文章
   async initItem(id) {
     try {
@@ -79,20 +83,18 @@ class ArticleEdit extends Component {
     })
   }
 
-  handleTitleChange = e => {
-    const title = e.target.value
-    this.setState({ title, save: 1 })
-  }
-
-  handleCategoryChange = e => {
+  handleChange(value, label) {
+    const { status } = this.state
     this.setState({
-      category: e,
+      [label]: value,
       save: 1
     })
-  }
-
-  handleEditorChange = content => {
-    this.setState({ content, save: 1 })
+    if (status === 2) {
+      clearInterval(this.timer)
+      this.timer = setInterval(() => {
+        this.onSave()
+      }, 3000)
+    }
   }
 
   // 自定义上传
@@ -135,8 +137,8 @@ class ArticleEdit extends Component {
   }
 
   // 文章提交
-  submit = async status => {
-    const { title, id, category, content } = this.state
+  async onSave() {
+    const { title, id, category, content, status } = this.state
     try {
       if (id) {
         await api.article.putItem(id, { title, content, status, category })
@@ -153,12 +155,22 @@ class ArticleEdit extends Component {
         })
       }
       this.setState({
-        status,
         save: 2
       })
     } catch (err) {
       console.error(err)
     }
+  }
+
+  submit(status) {
+    this.setState(
+      {
+        status
+      },
+      () => {
+        this.onSave()
+      }
+    )
   }
 
   submitRender() {
@@ -167,14 +179,14 @@ class ArticleEdit extends Component {
       <div className={styles.submit}>
         {save === 2 && status === 2 && (
           <Button type="link" disabled>
-            已保存
+            已保存({date(Date.now(), 'HH:mm')})
           </Button>
         )}
         {(!id || status === 2) && (
           <Button
             type="link"
             disabled={save !== 1}
-            onClick={() => this.submit(2)}
+            onClick={() => this.onSave(2)}
           >
             保存草稿
           </Button>
@@ -186,8 +198,8 @@ class ArticleEdit extends Component {
         )}
         <Button
           type="primary"
-          disabled={save !==1 && status === 1}
-          onClick={this.submit.bind(this, 1)}
+          disabled={save !== 1 && status === 1}
+          onClick={() => this.submit(1)}
           className={styles.publish}
         >
           {status === 1 ? '更新' : '发布'}
@@ -197,14 +209,7 @@ class ArticleEdit extends Component {
   }
 
   render() {
-    const {
-      content,
-      title,
-      categories,
-      category,
-      status,
-      uploadList
-    } = this.state
+    const { content, title, categories, category, uploadList } = this.state
     return (
       <div className={styles.article}>
         <div className={styles.content}>
@@ -212,7 +217,7 @@ class ArticleEdit extends Component {
             <Input
               placeholder="标题"
               value={title}
-              onChange={this.handleTitleChange}
+              onChange={e => this.handleChange(e.target.value, 'title')}
             />
           </div>
           {/* <Upload
@@ -234,8 +239,8 @@ class ArticleEdit extends Component {
           <div className={styles.editor}>
             <Editor
               value={content}
-              onChange={this.handleEditorChange}
-              onSave={() => this.submit(status)}
+              onChange={e => this.handleChange(e, 'content')}
+              onSave={() => this.onSave()}
             />
           </div>
         </div>
@@ -245,7 +250,7 @@ class ArticleEdit extends Component {
             <h4>分类</h4>
             <ul>
               <Checkbox.Group
-                onChange={this.handleCategoryChange}
+                onChange={e => this.handleChange(e, 'category')}
                 value={category}
               >
                 {categories.map((item, index) => (

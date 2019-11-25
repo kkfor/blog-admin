@@ -3,11 +3,9 @@
  */
 
 export default (times, format = 'yyyy-MM-dd HH:mm:ss') => {
-  const time = Date.parse(times)
-
-  if (!time) return null
-
   const date = new Date(times)
+
+  if (!date) return null
 
   const ele = {
     // 月
