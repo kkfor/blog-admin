@@ -91,9 +91,9 @@ class ArticleEdit extends Component {
     })
     if (status === 2) {
       clearInterval(this.timer)
-      this.timer = setInterval(() => {
+      this.timer = setTimeout(() => {
         this.onSave()
-      }, 3000)
+      }, 10000)
     }
   }
 
@@ -136,7 +136,7 @@ class ArticleEdit extends Component {
     })
   }
 
-  // 文章提交
+  // 保存文章
   async onSave() {
     const { title, id, category, content, status } = this.state
     try {
@@ -162,6 +162,7 @@ class ArticleEdit extends Component {
     }
   }
 
+  // 修改状态并保存
   submit(status) {
     this.setState(
       {
@@ -186,7 +187,7 @@ class ArticleEdit extends Component {
           <Button
             type="link"
             disabled={save !== 1}
-            onClick={() => this.onSave(2)}
+            onClick={() => this.submit(2)}
           >
             保存草稿
           </Button>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styles from './index.module.scss'
-import { Input, Button, Form } from 'antd'
+import { Input, Button, Form, notification} from 'antd'
 import history from '@/config/history'
 import api from '@/api'
 import Cookies from 'js-cookie'
@@ -15,6 +15,11 @@ class Login extends Component {
       if(!err) {
         try {
           const res = await api.user.login(values)
+          notification.success({
+            message: '通知',
+            description: '登录成功',
+            duration: 2
+          })
           Cookies.set('token', res.token)
           Cookies.set('username', values.username)
           history.push('/')

@@ -13,17 +13,17 @@ instance.interceptors.request.use(function(req) {
     req.headers.Authorization = 'Bearer ' + auth
   }
   return req
+}, function(error) {
+  openNotification({ type: 'error', content: '请求出错'})
 })
 instance.interceptors.response.use(
   function(res) {
-    openNotification({ type: 'success', content: res.data.message })
     return res.data.data
   },
   function(error) {
-    if (error.response && error.response.status === 401) {
-      openNotification({ type: 'error', content: error.response.data.message })
-      return Promise.reject(error.response.data.message)
-    }
+    const message = error.response ? error.response.data.message : '响应出错'
+    openNotification({ type: 'error', content: message })
+    return Promise.reject(message)
   }
 )
 
