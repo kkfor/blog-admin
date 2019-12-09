@@ -5,28 +5,29 @@ import Cookies from 'js-cookie'
 
 const instance = axios.create({
   baseURL: config.baseURL
-}) 
+})
 
 instance.interceptors.request.use(function(req) {
   const auth = Cookies.get('token')
-  if(auth) {
+  if (auth) {
     req.headers.Authorization = 'Bearer ' + auth
   }
   return req
 })
-instance.interceptors.response.use(function(res) {
-  if(res.status === 200 || res.status === 201) {
-    return res.data
-  } else {
-    openNotification({type: 'error', content: '请求出错'})
+instance.interceptors.response.use(
+  function(res) {
+    openNotification({ type: 'success', content: res.data.message })
+    return res.data.data
+  },
+  function(error) {
+    if (error.response && error.response.status === 401) {
+      openNotification({ type: 'error', content: error.response.data.message })
+      return Promise.reject(error.response.data.message)
+    }
   }
-}, function(error) {
-  if (error.response && error.response.status === 401) {
-    openNotification({type: 'error', content: '暂无权限'})
-  }
-})
+)
 
-const openNotification = ({type='open', content}) => {
+const openNotification = ({ type = 'open', content }) => {
   notification[type]({
     message: '通知',
     description: content,
@@ -36,11 +37,13 @@ const openNotification = ({type='open', content}) => {
 
 const Ajax = (methods, url, data) => {
   return new Promise((resolve, reject) => {
-    instance[methods](url, data).then(res => {
-      resolve(res)
-    }).catch(err => {
-      reject(err)
-    })
+    instance[methods](url, data)
+      .then(res => {
+        resolve(res)
+      })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 

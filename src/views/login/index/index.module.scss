@@ -1,11 +1,11 @@
 .main {
-  height: 100vh;
+  min-height: 100vh;
   background: #f1f1f1;
+  display: flex;
 }
 .login {
   width: 360px;
   margin: auto;
-  padding: 12% 0 0;
 }
 .form {
   padding: 36px 40px 40px;
